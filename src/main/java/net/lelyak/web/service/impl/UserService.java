@@ -1,6 +1,5 @@
 package net.lelyak.web.service.impl;
 
-import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.User;
 import net.lelyak.edu.utils.exception.UserIsNotUniqueException;
 import net.lelyak.edu.utils.exception.UserNotFoundException;
