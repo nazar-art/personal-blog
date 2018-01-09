@@ -1,0 +1,8 @@
+
+
+- REST Api for user registration
+- save user to DB (properties vs beans)
+
+- login & registration
+
+- check email uniques for email & user name / validation (?) -> create exceptions layer for validators
