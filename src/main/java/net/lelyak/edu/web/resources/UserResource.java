@@ -2,6 +2,7 @@ package net.lelyak.edu.web.resources;
 
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.BlogUser;
+import net.lelyak.edu.web.config.BlogUserResource;
 import net.lelyak.edu.web.service.IUserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +23,9 @@ public class UserResource {
     }
 
     @GetMapping(value = "/users/{id}")
-    public BlogUser getUser(@PathVariable String id) {
-        return userService.getUser(id);
+    public BlogUserResource getUser(@PathVariable String id) {
+        BlogUser user = userService.getUser(id);
+        return new BlogUserResource(user);
     }
 
     @PostMapping(value = "/users")

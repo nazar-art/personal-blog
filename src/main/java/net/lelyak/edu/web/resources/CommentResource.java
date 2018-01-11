@@ -2,6 +2,7 @@ package net.lelyak.edu.web.resources;
 
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.Comment;
+import net.lelyak.edu.web.config.CommentLinksResource;
 import net.lelyak.edu.web.service.ICommentService;
 import net.lelyak.edu.web.service.IPostService;
 import net.lelyak.edu.web.service.IUserService;
@@ -27,8 +28,9 @@ public class CommentResource {
     }
 
     @GetMapping(value = "/users/{userId}/posts/{postId}/comments/{id}")
-    public Comment getComment(@PathVariable Long id) {
-        return commentService.findComment(id);
+    public CommentLinksResource getComment(@PathVariable Long id) {
+        Comment comment = commentService.findComment(id);
+        return new CommentLinksResource(comment);
     }
 
     @PostMapping(value = "/users/{userId}/posts/{postId}/comments")

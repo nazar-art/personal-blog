@@ -2,6 +2,8 @@ package net.lelyak.edu.web.resources;
 
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.Post;
+import net.lelyak.edu.utils.converters.LocalDateTimeConverter;
+import net.lelyak.edu.web.config.PostLinksResource;
 import net.lelyak.edu.web.service.IPostService;
 import net.lelyak.edu.web.service.IUserService;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +27,9 @@ public class PostResource {
     }
 
     @GetMapping(value = "/users/{userId}/posts/{id}")
-    public Post getPost(@PathVariable Long id) {
-        return postService.findPost(id);
+    public PostLinksResource getPost(@PathVariable Long id) {
+        Post post = postService.findPost(id);
+        return new PostLinksResource(post);
     }
 
     @PostMapping(value = "/users/{userId}/posts")
