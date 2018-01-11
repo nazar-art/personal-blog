@@ -68,3 +68,5 @@ _Optional_:
 ![Front-end & Back-end Architecture](frontend-backend view.png)
 
 
+## Run demo sample
+You have to create PostgresSQL DB with name: blog
