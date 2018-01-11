@@ -1,9 +1,12 @@
 package net.lelyak.edu.web.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import net.lelyak.edu.model.BlogUser;
+import net.lelyak.edu.model.Post;
 import net.lelyak.edu.utils.exception.DuplicateEmailException;
-import net.lelyak.edu.utils.exception.UserNameIsNotUniqueException;
+import net.lelyak.edu.utils.exception.DuplicateUserNameException;
 import net.lelyak.edu.utils.exception.NotPresentedInDbException;
 import net.lelyak.edu.web.repository.UserRepository;
 import net.lelyak.edu.web.service.IUserService;
@@ -70,7 +73,7 @@ public class UserService implements IUserService {
     private void validateUserName(String userName) {
         userRepository.findByUserName(userName)
                 .ifPresent(s -> {
-                    throw new UserNameIsNotUniqueException(userName);
+                    throw new DuplicateUserNameException(userName);
                 });
     }
 
@@ -84,5 +87,17 @@ public class UserService implements IUserService {
     private void validateUserDBPresence(String name) {
         userRepository.findByUserName(name)
                 .orElseThrow(() -> new NotPresentedInDbException(name));
+    }
+
+    @SneakyThrows
+    public static void main(String[] args) {
+        BlogUser user = BlogUser.builder().userName("johny").email("johny@gmail.com").password("johny123").build();
+
+        Post first_post = Post.builder().postText("First post").build();
+
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(user));
+
+        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(first_post));
     }
 }

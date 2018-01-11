@@ -9,7 +9,7 @@ public class NotPresentedInDbException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    private static final String USER_NOT_FOUND_EXCEPTION = "Object Not presented in DB, with id: [%0$s] is not found in DB.";
+    private static final String USER_NOT_FOUND_EXCEPTION = "Object is NOT presented in DB, with id: [%0$s]";
 
     public NotPresentedInDbException() {
         super();
