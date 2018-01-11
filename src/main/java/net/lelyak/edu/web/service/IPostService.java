@@ -1,7 +1,7 @@
 package net.lelyak.edu.web.service;
 
 import net.lelyak.edu.model.Post;
-import net.lelyak.edu.model.User;
+import net.lelyak.edu.model.BlogUser;
 
 import java.util.List;
 

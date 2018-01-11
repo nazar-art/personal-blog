@@ -1,6 +1,6 @@
 package net.lelyak.edu.web.repository;
 
-import net.lelyak.edu.model.User;
+import net.lelyak.edu.model.BlogUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -8,8 +8,8 @@ import java.util.Optional;
 /**
  * @author Nazar Lelyak.
  */
-public interface UserRepository extends JpaRepository<User, String> {
-    Optional<User> findByUserName(String name);
+public interface UserRepository extends JpaRepository<BlogUser, String> {
+    Optional<BlogUser> findByUserName(String name);
 
-    Optional<User> findByEmail(String email);
+    Optional<BlogUser> findByEmail(String email);
 }

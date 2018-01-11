@@ -1,7 +1,7 @@
 package net.lelyak.edu.web.resources;
 
 import lombok.AllArgsConstructor;
-import net.lelyak.edu.model.User;
+import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.web.service.IUserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,22 +17,22 @@ public class UserResource {
     private IUserService userService;
 
     @GetMapping(value = "/users")
-    public List<User> getAllUsers() {
+    public List<BlogUser> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping(value = "/users/{id}")
-    public User getUser(@PathVariable String id) {
+    public BlogUser getUser(@PathVariable String id) {
         return userService.getUser(id);
     }
 
     @PostMapping(value = "/users")
-    public void addUser(@RequestBody User user) {
+    public void addUser(@RequestBody BlogUser user) {
         userService.addUser(user);
     }
 
     @PutMapping(value = "/users/{id}")
-    public void updateUser(@PathVariable String id, @RequestBody User user) {
+    public void updateUser(@PathVariable String id, @RequestBody BlogUser user) {
         userService.updateUser(id, user);
     }
 

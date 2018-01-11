@@ -26,7 +26,7 @@ public class Post {
     private String postText;
 
     @ManyToOne
-    private User user;
+    private BlogUser user;
 
     private LocalDateTime createdDate;
 }

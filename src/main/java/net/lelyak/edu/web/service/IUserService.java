@@ -1,6 +1,6 @@
 package net.lelyak.edu.web.service;
 
-import net.lelyak.edu.model.User;
+import net.lelyak.edu.model.BlogUser;
 
 import java.util.List;
 
@@ -8,13 +8,13 @@ import java.util.List;
  * @author Nazar Lelyak.
  */
 public interface IUserService {
-    List<User> getAllUsers();
+    List<BlogUser> getAllUsers();
 
-    User getUser(String userName);
+    BlogUser getUser(String userName);
 
-    void addUser(User user);
+    void addUser(BlogUser user);
 
-    void updateUser(String userName, User user);
+    void updateUser(String userName, BlogUser user);
 
     void deleteUser(String userName);
 

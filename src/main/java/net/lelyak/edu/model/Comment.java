@@ -26,7 +26,7 @@ public class Comment {
     private String commentText;
 
     @ManyToOne
-    private User user;
+    private BlogUser user;
     @ManyToOne
     private Post post;
 
