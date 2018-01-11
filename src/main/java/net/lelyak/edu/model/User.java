@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
- * Created by Nazar Lelyak.
+ * @author Nazar Lelyak.
  */
 @Data
 @Builder
@@ -20,12 +20,8 @@ public class User {
 
     @Id
     private String userName;
-
-    private String firstName;
-    private String lastName;
-
-    private String email;
     private String password;
+    private String email;
 
 //    private boolean admin;
 //    private String image;

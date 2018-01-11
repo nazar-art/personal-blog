@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 /**
- * Created by Nazar Lelyak.
+ * @author Nazar Lelyak.
  */
 @Data
 @Builder

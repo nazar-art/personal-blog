@@ -3,9 +3,10 @@ package net.lelyak.edu.utils.common;
 import java.util.Formatter;
 
 /**
- * Created by Nazar Lelyak.
+ * @author Nazar Lelyak.
  */
 public final class StringUtilities {
+
     public static final String NEW_LINE = System.getProperty("line.separator");
 
     private StringUtilities() {

@@ -1,0 +1,53 @@
+package net.lelyak.edu.web.service.impl;
+
+import com.google.common.collect.Lists;
+import lombok.AllArgsConstructor;
+import net.lelyak.edu.model.Comment;
+import net.lelyak.edu.web.repository.CommentRepository;
+import net.lelyak.edu.web.service.ICommentService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * @author Nazar Lelyak.
+ */
+@Service
+@AllArgsConstructor
+public class CommentService implements ICommentService {
+
+    private final CommentRepository commentRepository;
+
+    @Override
+    public List<Comment> findAllCommentsByPostId(Long id) {
+        List<Comment> result = Lists.newArrayList();
+        result.addAll(commentRepository.findByPost_Id(id));
+        return result;
+    }
+
+    @Override
+    public Comment findComment(Long id) {
+        return commentRepository.findOne(id);
+    }
+
+    @Override
+    public void addComment(Comment post) {
+        commentRepository.save(post);
+    }
+
+    @Override
+    public void updateComment(Long id, Comment post) {
+        commentRepository.save(post);
+    }
+
+    @Override
+    public void deleteComment(Long id) {
+        commentRepository.delete(id);
+    }
+
+    @Override
+    public void deleteAllCommentsByPostId(Long id) {
+        findAllCommentsByPostId(id)
+                .forEach(post -> deleteComment(post.getId()));
+    }
+}

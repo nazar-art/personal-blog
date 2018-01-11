@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 /**
- * Created by Nazar Lelyak.
+ * @author Nazar Lelyak.
  */
 @Data
 @Builder
@@ -23,7 +23,7 @@ public class Comment {
     @Id
     private Long id;
 
-    private String comment;
+    private String commentText;
 
     @ManyToOne
     private User user;
