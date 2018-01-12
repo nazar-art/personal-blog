@@ -7,6 +7,7 @@ import net.lelyak.edu.web.repository.PostRepository;
 import net.lelyak.edu.web.service.IPostService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -32,6 +33,7 @@ public class PostService implements IPostService {
 
     @Override
     public void addPost(Post post) {
+        post.setCreatedDate(LocalDateTime.now());
         postRepository.save(post);
     }
 

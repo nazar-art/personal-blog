@@ -84,7 +84,7 @@ public class UserService implements IUserService {
                 });
     }
 
-    private void validateUserDBPresence(String name) {
+    public void validateUserDBPresence(String name) {
         userRepository.findByUserName(name)
                 .orElseThrow(() -> new NotPresentedInDbException(name));
     }

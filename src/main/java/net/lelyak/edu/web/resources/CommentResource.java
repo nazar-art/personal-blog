@@ -37,7 +37,6 @@ public class CommentResource {
     public void addComment(@PathVariable String userId, @PathVariable Long postId, @RequestBody Comment comment) {
         comment.setUser(userService.getUser(userId));
         comment.setPost(postService.findPost(postId));
-        comment.setCreatedDate(LocalDateTime.now());
 
         commentService.addComment(comment);
     }

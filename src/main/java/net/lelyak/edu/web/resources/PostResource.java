@@ -3,6 +3,7 @@ package net.lelyak.edu.web.resources;
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.Post;
 import net.lelyak.edu.utils.converters.LocalDateTimeConverter;
+import net.lelyak.edu.utils.exception.NotPresentedInDbException;
 import net.lelyak.edu.web.config.PostLinksResource;
 import net.lelyak.edu.web.service.IPostService;
 import net.lelyak.edu.web.service.IUserService;
@@ -35,7 +36,6 @@ public class PostResource {
     @PostMapping(value = "/users/{userId}/posts")
     public void addPost(@PathVariable String userId, @RequestBody Post post) {
         post.setUser(userService.getUser(userId));
-        post.setCreatedDate(LocalDateTime.now());
 
         postService.addPost(post);
     }

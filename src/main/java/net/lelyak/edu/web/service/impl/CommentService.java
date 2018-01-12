@@ -7,6 +7,7 @@ import net.lelyak.edu.web.repository.CommentRepository;
 import net.lelyak.edu.web.service.ICommentService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -31,13 +32,14 @@ public class CommentService implements ICommentService {
     }
 
     @Override
-    public void addComment(Comment post) {
-        commentRepository.save(post);
+    public void addComment(Comment comment) {
+        comment.setCreatedDate(LocalDateTime.now());
+        commentRepository.save(comment);
     }
 
     @Override
-    public void updateComment(Long id, Comment post) {
-        commentRepository.save(post);
+    public void updateComment(Long id, Comment comment) {
+        commentRepository.save(comment);
     }
 
     @Override
