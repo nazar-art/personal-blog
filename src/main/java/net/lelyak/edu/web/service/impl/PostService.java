@@ -3,12 +3,10 @@ package net.lelyak.edu.web.service.impl;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.Post;
-import net.lelyak.edu.utils.exception.NotPresentedInDbException;
 import net.lelyak.edu.web.repository.PostRepository;
 import net.lelyak.edu.web.service.IPostService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
