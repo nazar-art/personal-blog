@@ -45,4 +45,9 @@ public class AuthController {
     public String error403() {
         return "/error/403";
     }
+
+    @GetMapping("/error")
+    public String error500() {
+        return "/error/error";
+    }
 }
