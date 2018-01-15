@@ -13,30 +13,22 @@
 <div class="container">
 
     <div class="starter-template">
-        <h4 th:inline="text">[[${#httpServletRequest.remoteUser}]] Home Page</h4>
-
-        <!--show user posts here-->
-        <!--<h2>1. Visit <a th:href="@{/admin}">Admin page (Spring Security protected, Need Admin Role)</a></h2>-->
-        <!--<h2>2. Visit <a th:href="@{/user}">User page (Spring Security protected, Need User Role)</a></h2>-->
-        <!--<h2>3. Visit <a th:href="@{/about}">About page</a></h2>-->
+        <h4 th:inline="text">Home Page</h4>
 
         <div th:if="${not #lists.isEmpty(posts)}">
-            <h2>User Posts</h2>
+            <h2>[[${#httpServletRequest.remoteUser}]] Posts</h2>
             <table class="table table-striped">
                 <tr>
-                    <th>Date</th>
                     <th>Post</th>
+                    <th>Date</th>
                 </tr>
                 <tr th:each="post : ${posts}">
-                    <td th:text="${post.createdDate}"></td>
                     <td th:text="${post.postText}"></td>
+                    <td th:text="${post.createdDate}"></td>
                 </tr>
             </table>
         </div>
 
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Sign Out"/>
-        </form>
     </div>
 
 </div>
