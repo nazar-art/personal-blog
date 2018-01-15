@@ -1,12 +1,12 @@
-package net.lelyak.edu.configuration;
+package net.lelyak.edu.web;
 
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Comment;
 import net.lelyak.edu.model.Post;
-import net.lelyak.edu.web.service.impl.CommentService;
-import net.lelyak.edu.web.service.impl.PostService;
-import net.lelyak.edu.web.service.impl.UserService;
+import net.lelyak.edu.rest.service.impl.CommentService;
+import net.lelyak.edu.rest.service.impl.PostService;
+import net.lelyak.edu.rest.service.impl.UserService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @AllArgsConstructor
-public class DefaultInitializer implements ApplicationRunner {
+public class DefaultRestInitializer implements ApplicationRunner {
 
     private final UserService userService;
     private final PostService postService;
@@ -31,7 +31,7 @@ public class DefaultInitializer implements ApplicationRunner {
                 .email("carlos@gmail.com")
                 .build();
 
-        userService.addUser(carlos);
+        userService.createUser(carlos);
 
         Post firstPost = Post.builder()
                 .postText("First post !!! UUUUUhuuuuu!")
@@ -52,7 +52,7 @@ public class DefaultInitializer implements ApplicationRunner {
 
         BlogUser sailor = BlogUser.builder()
                 .userName("sailor").password("123").email("sailor@gmail.com").build();
-        userService.addUser(sailor);
+        userService.createUser(sailor);
 
         Comment commentToFirstPost = Comment.builder().commentText("you are an idiot!")
                 .user(sailor).post(firstPost).build();

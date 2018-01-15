@@ -1,6 +1,5 @@
-package net.lelyak.edu.web.repository;
+package net.lelyak.edu.rest.repository;
 
-import net.lelyak.edu.model.Comment;
 import net.lelyak.edu.model.Post;
 import net.lelyak.edu.model.BlogUser;
 import org.springframework.data.jpa.repository.JpaRepository;

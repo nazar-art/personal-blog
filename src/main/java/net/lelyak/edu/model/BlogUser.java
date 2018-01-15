@@ -23,6 +23,10 @@ public class BlogUser {
     private String password;
     private String email;
 
+//    private String email;
+//    private String firstName;
+//    private String lastName;
+
 //    private boolean admin;
 //    private String image;
 }

@@ -1,4 +1,4 @@
-package net.lelyak.edu.web.config;
+package net.lelyak.edu.rest.config;
 
 import net.lelyak.edu.utils.exception.DuplicateEmailException;
 import net.lelyak.edu.utils.exception.NotPresentedInDbException;

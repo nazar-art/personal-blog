@@ -1,15 +1,12 @@
-package net.lelyak.edu.web.resources;
+package net.lelyak.edu.rest.resources;
 
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.Post;
-import net.lelyak.edu.utils.converters.LocalDateTimeConverter;
-import net.lelyak.edu.utils.exception.NotPresentedInDbException;
-import net.lelyak.edu.web.config.PostLinksResource;
-import net.lelyak.edu.web.service.IPostService;
-import net.lelyak.edu.web.service.IUserService;
+import net.lelyak.edu.rest.config.PostLinksResource;
+import net.lelyak.edu.rest.service.IPostService;
+import net.lelyak.edu.rest.service.IUserService;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -28,8 +25,8 @@ public class PostResource {
     }
 
     @GetMapping(value = "/users/{userId}/posts/{id}")
-    public PostLinksResource getPost(@PathVariable Long id) {
-        Post post = postService.findPost(id);
+    public PostLinksResource getPost(@PathVariable String userId, @PathVariable Long id) {
+        Post post = postService.findPost(userId, id);
         return new PostLinksResource(post);
     }
 
@@ -41,13 +38,13 @@ public class PostResource {
     }
 
     @PutMapping(value = "/users/{userId}/posts/{id}")
-    public void updatePost(@PathVariable Long id, @RequestBody Post post) {
-        postService.updatePost(id, post);
+    public void updatePost(@PathVariable String userId, @PathVariable Long id, @RequestBody Post post) {
+        postService.updatePost(userId, id, post);
     }
 
     @DeleteMapping(value = "/users/{userId}/posts/{id}")
-    public void deletePost(@PathVariable Long id) {
-        postService.deletePost(id);
+    public void deletePost(@PathVariable String userId, @PathVariable Long id) {
+        postService.deletePost(userId, id);
     }
 
     @DeleteMapping(value = "/users/{userId}/posts")

@@ -1,4 +1,4 @@
-package net.lelyak.edu.web.service;
+package net.lelyak.edu.rest.service;
 
 import net.lelyak.edu.model.Comment;
 

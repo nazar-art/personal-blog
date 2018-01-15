@@ -1,10 +1,10 @@
-package net.lelyak.edu.web.config;
+package net.lelyak.edu.rest.config;
 
 import lombok.Getter;
 import net.lelyak.edu.model.Post;
-import net.lelyak.edu.web.resources.CommentResource;
-import net.lelyak.edu.web.resources.PostResource;
-import net.lelyak.edu.web.resources.UserResource;
+import net.lelyak.edu.rest.resources.CommentResource;
+import net.lelyak.edu.rest.resources.PostResource;
+import net.lelyak.edu.rest.resources.UserResource;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 
@@ -24,7 +24,7 @@ public class PostLinksResource extends ResourceSupport {
         this.post = post;
 
         this.add(ControllerLinkBuilder.linkTo(methodOn(PostResource.class, postId)
-                .getPost(postId)).withSelfRel());
+                .getPost(userName, postId)).withSelfRel());
         this.add(ControllerLinkBuilder.linkTo(methodOn(PostResource.class)
                 .getAllPosts(userName)).withRel("posts-all"));
 

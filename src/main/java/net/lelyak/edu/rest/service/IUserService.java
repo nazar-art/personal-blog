@@ -1,4 +1,4 @@
-package net.lelyak.edu.web.service;
+package net.lelyak.edu.rest.service;
 
 import net.lelyak.edu.model.BlogUser;
 
@@ -12,7 +12,7 @@ public interface IUserService {
 
     BlogUser getUser(String userName);
 
-    void addUser(BlogUser user);
+    void createUser(BlogUser user);
 
     void updateUser(String userName, BlogUser user);
 

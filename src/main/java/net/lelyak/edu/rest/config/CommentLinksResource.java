@@ -1,11 +1,9 @@
-package net.lelyak.edu.web.config;
+package net.lelyak.edu.rest.config;
 
 import lombok.Getter;
 import net.lelyak.edu.model.Comment;
-import net.lelyak.edu.model.Post;
-import net.lelyak.edu.web.resources.CommentResource;
-import net.lelyak.edu.web.resources.PostResource;
-import net.lelyak.edu.web.resources.UserResource;
+import net.lelyak.edu.rest.resources.CommentResource;
+import net.lelyak.edu.rest.resources.UserResource;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 

@@ -1,10 +1,10 @@
-package net.lelyak.edu.web.service.impl;
+package net.lelyak.edu.rest.service.impl;
 
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.Comment;
-import net.lelyak.edu.web.repository.CommentRepository;
-import net.lelyak.edu.web.service.ICommentService;
+import net.lelyak.edu.rest.repository.CommentRepository;
+import net.lelyak.edu.rest.service.ICommentService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

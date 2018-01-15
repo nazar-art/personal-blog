@@ -1,7 +1,6 @@
-package net.lelyak.edu.web.service;
+package net.lelyak.edu.rest.service;
 
 import net.lelyak.edu.model.Post;
-import net.lelyak.edu.model.BlogUser;
 
 import java.util.List;
 
@@ -12,13 +11,13 @@ public interface IPostService {
 
     List<Post> findAllPostsByUserName(String userName);
 
-    Post findPost(Long id);
+    Post findPost(String userName, Long id);
 
     void addPost(Post post);
 
-    void updatePost(Long id, Post post);
+    void updatePost(String userName, Long id, Post post);
 
-    void deletePost(Long id);
+    void deletePost(String userName, Long id);
 
     void deleteAllPostsByUserName(String userName);
 }

@@ -1,15 +1,12 @@
-package net.lelyak.edu.web.service.impl;
+package net.lelyak.edu.rest.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import net.lelyak.edu.model.BlogUser;
-import net.lelyak.edu.model.Post;
+import net.lelyak.edu.rest.repository.UserRepository;
+import net.lelyak.edu.rest.service.IUserService;
 import net.lelyak.edu.utils.exception.DuplicateEmailException;
 import net.lelyak.edu.utils.exception.DuplicateUserNameException;
 import net.lelyak.edu.utils.exception.NotPresentedInDbException;
-import net.lelyak.edu.web.repository.UserRepository;
-import net.lelyak.edu.web.service.IUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -39,7 +36,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void addUser(BlogUser user) {
+    public void createUser(BlogUser user) {
         Assert.notNull(user, "User is null");
         validateUserName(user.getUserName());
         validateUserEmail(user.getEmail());
@@ -87,17 +84,5 @@ public class UserService implements IUserService {
     public void validateUserDBPresence(String name) {
         userRepository.findByUserName(name)
                 .orElseThrow(() -> new NotPresentedInDbException(name));
-    }
-
-    @SneakyThrows
-    public static void main(String[] args) {
-        BlogUser user = BlogUser.builder().userName("johny").email("johny@gmail.com").password("johny123").build();
-
-        Post first_post = Post.builder().postText("First post").build();
-
-        ObjectMapper mapper = new ObjectMapper();
-        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(user));
-
-        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(first_post));
     }
 }

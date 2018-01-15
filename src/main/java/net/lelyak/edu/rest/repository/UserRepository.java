@@ -1,4 +1,4 @@
-package net.lelyak.edu.web.repository;
+package net.lelyak.edu.rest.repository;
 
 import net.lelyak.edu.model.BlogUser;
 import org.springframework.data.jpa.repository.JpaRepository;

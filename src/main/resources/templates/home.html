@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>BlogUser Personal page</title>
+
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h4 th:inline="text">[[${#httpServletRequest.remoteUser}]] Home Page</h4>
+
+        <!--show user posts here-->
+        <!--<h2>1. Visit <a th:href="@{/admin}">Admin page (Spring Security protected, Need Admin Role)</a></h2>-->
+        <!--<h2>2. Visit <a th:href="@{/user}">User page (Spring Security protected, Need User Role)</a></h2>-->
+        <!--<h2>3. Visit <a th:href="@{/about}">About page</a></h2>-->
+
+        <div th:if="${not #lists.isEmpty(posts)}">
+            <h2>User Posts</h2>
+            <table class="table table-striped">
+                <tr>
+                    <th>#</th>
+                    <th>Post</th>
+                </tr>
+                <tr th:each="post : ${posts}">
+                    <td th:text="${post.id}"></td>
+                    <td th:text="${post.postText}"></td>
+                </tr>
+            </table>
+        </div>
+
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </div>
+
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

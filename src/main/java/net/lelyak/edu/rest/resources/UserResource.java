@@ -1,9 +1,9 @@
-package net.lelyak.edu.web.resources;
+package net.lelyak.edu.rest.resources;
 
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.BlogUser;
-import net.lelyak.edu.web.config.BlogUserResource;
-import net.lelyak.edu.web.service.IUserService;
+import net.lelyak.edu.rest.config.BlogUserResource;
+import net.lelyak.edu.rest.service.IUserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class UserResource {
 
     @PostMapping(value = "/users")
     public void addUser(@RequestBody BlogUser user) {
-        userService.addUser(user);
+        userService.createUser(user);
     }
 
     @PutMapping(value = "/users/{id}")

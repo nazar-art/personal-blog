@@ -1,14 +1,13 @@
-package net.lelyak.edu.web.resources;
+package net.lelyak.edu.rest.resources;
 
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.Comment;
-import net.lelyak.edu.web.config.CommentLinksResource;
-import net.lelyak.edu.web.service.ICommentService;
-import net.lelyak.edu.web.service.IPostService;
-import net.lelyak.edu.web.service.IUserService;
+import net.lelyak.edu.rest.config.CommentLinksResource;
+import net.lelyak.edu.rest.service.ICommentService;
+import net.lelyak.edu.rest.service.IPostService;
+import net.lelyak.edu.rest.service.IUserService;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -36,7 +35,7 @@ public class CommentResource {
     @PostMapping(value = "/users/{userId}/posts/{postId}/comments")
     public void addComment(@PathVariable String userId, @PathVariable Long postId, @RequestBody Comment comment) {
         comment.setUser(userService.getUser(userId));
-        comment.setPost(postService.findPost(postId));
+        comment.setPost(postService.findPost(userId, postId));
 
         commentService.addComment(comment);
     }
