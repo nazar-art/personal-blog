@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.rest.service.impl.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class AuthController {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/registration")
     public String openRegisterPage(Model model) {
@@ -25,8 +27,11 @@ public class AuthController {
 
     @PostMapping("/registration")
     public String createNewUser(@ModelAttribute("newUser") BlogUser user) {
-        log.info("User details from UI form: {}", user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         // todo you need to set user role for new user here
+        log.info("User details from UI form: {}", user);
+
         userService.createUser(user);
         return "redirect:/login";
     }
@@ -55,6 +60,5 @@ public class AuthController {
     public String error() {
         return "/error/500";
     }
-
 
 }
