@@ -3,7 +3,7 @@ package net.lelyak.edu.rest.resources;
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.rest.config.BlogUserResource;
-import net.lelyak.edu.rest.service.IUserService;
+import net.lelyak.edu.rest.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserResource {
 
-    private IUserService userService;
+    private UserService userService;
 
     @GetMapping(value = "/users")
     public List<BlogUser> getAllUsers() {

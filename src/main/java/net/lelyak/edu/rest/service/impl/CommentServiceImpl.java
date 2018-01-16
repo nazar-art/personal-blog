@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.Comment;
 import net.lelyak.edu.rest.repository.CommentRepository;
-import net.lelyak.edu.rest.service.ICommentService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,7 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
-public class CommentService implements ICommentService {
+public class CommentServiceImpl implements net.lelyak.edu.rest.service.CommentService {
 
     private final CommentRepository commentRepository;
 

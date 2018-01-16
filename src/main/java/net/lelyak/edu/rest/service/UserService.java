@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author Nazar Lelyak.
  */
-public interface IUserService {
+public interface UserService {
     List<BlogUser> getAllUsers();
 
     BlogUser getUser(String userName);

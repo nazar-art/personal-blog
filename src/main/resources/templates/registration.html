@@ -17,6 +17,7 @@
 
             <!--If modelAttribute will fail, use form:form tag-->
             <form th:action="@{/registration}" method="post" modelAttribute="newUser">
+            <!--<form th:action="@{/registration}" method="post" th:object="${user}">-->
                 <fieldset>
                     <h1>Register new Blog User</h1>
 
@@ -53,6 +54,9 @@
 
                         <a class="link" th:href="@{/login}">Already registered? Login.</a>
                     </div>
+
+                    <!--/*@thymesVar id="successMessage" type="java.lang.String"*/-->
+                    <span th:utext="${successMessage}"></span>
                 </fieldset>
             </form>
         </div>

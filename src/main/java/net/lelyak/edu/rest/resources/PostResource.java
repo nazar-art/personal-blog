@@ -3,8 +3,8 @@ package net.lelyak.edu.rest.resources;
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.Post;
 import net.lelyak.edu.rest.config.PostLinksResource;
-import net.lelyak.edu.rest.service.IPostService;
-import net.lelyak.edu.rest.service.IUserService;
+import net.lelyak.edu.rest.service.PostService;
+import net.lelyak.edu.rest.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 public class PostResource {
 
-    private final IPostService postService;
-    private final IUserService userService;
+    private final PostService postService;
+    private final UserService userService;
 
     @GetMapping(value = "/users/{userId}/posts")
     public List<Post> getAllPosts(@PathVariable String userId) {

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author Nazar Lelyak.
  */
-public interface IPostService {
+public interface PostService {
 
     List<Post> findAllPostsByUserName(String userName);
 

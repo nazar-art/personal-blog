@@ -2,7 +2,7 @@ package net.lelyak.edu.controller;
 
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.Post;
-import net.lelyak.edu.rest.service.impl.PostService;
+import net.lelyak.edu.rest.service.impl.PostServiceImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class HomePageController {
 
-    private final PostService postService;
+    private final PostServiceImpl postServiceImpl;
 
     @GetMapping("/")
     public String mainUrl() {
@@ -29,7 +29,7 @@ public class HomePageController {
                 .getAuthentication();
         String currentPrincipalName = authentication.getName();
 
-        List<Post> postsByUserName = postService.findAllPostsByUserName(currentPrincipalName);
+        List<Post> postsByUserName = postServiceImpl.findAllPostsByUserName(currentPrincipalName);
         model.addAttribute("posts", postsByUserName);
 
         return "/home";

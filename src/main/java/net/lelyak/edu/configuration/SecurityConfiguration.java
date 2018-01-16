@@ -11,11 +11,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
+import javax.sql.DataSource;
+
 @Configuration
 @AllArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private AccessDeniedHandler accessDeniedHandler;
+    private DataSource dataSource;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -33,15 +37,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().permitAll()
                 .and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler).accessDeniedPage("/error/403");
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler).accessDeniedPage("/403");
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("carlos").password("$2a$10$fB4clVkfjAba02mwIJidqOiCGv6tPV7n5/vkbfEfQAmsu6WMhF5Bi").roles("USER")
+                .withUser("carlos")
+                .password("$2a$10$fB4clVkfjAba02mwIJidqOiCGv6tPV7n5/vkbfEfQAmsu6WMhF5Bi")
+                .roles("USER")
                 .and()
-                .withUser("chris").password("$2a$10$fB4clVkfjAba02mwIJidqOiCGv6tPV7n5/vkbfEfQAmsu6WMhF5Bi").roles("USER")
+                .withUser("chris")
+                .password("$2a$10$fB4clVkfjAba02mwIJidqOiCGv6tPV7n5/vkbfEfQAmsu6WMhF5Bi")
+                .roles("USER")
         .and().passwordEncoder(passwordEncoder());
     }
 

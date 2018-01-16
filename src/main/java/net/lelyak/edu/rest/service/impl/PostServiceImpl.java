@@ -7,7 +7,7 @@ import net.lelyak.edu.utils.exception.BadRequestException;
 import net.lelyak.edu.utils.exception.NotPresentedInDbException;
 import net.lelyak.edu.rest.repository.PostRepository;
 import net.lelyak.edu.rest.repository.UserRepository;
-import net.lelyak.edu.rest.service.IPostService;
+import net.lelyak.edu.rest.service.PostService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
-public class PostService implements IPostService {
+public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
@@ -33,16 +33,14 @@ public class PostService implements IPostService {
     @Override
     public Post findPost(String userName, Long id) {
         Post result;
-        if (userRepository.exists(userName)) {
-            result = postRepository.findOne(id);
-
-            boolean postBelongsToUser = result.getUser().getUserName().equals(userName);
-            if (!postBelongsToUser) {
-                throw new BadRequestException(userName);
-            }
-
-        } else {
+        if (!userRepository.exists(userName)) {
             throw new NotPresentedInDbException(userName);
+        }
+
+        result = postRepository.findOne(id);
+        boolean postBelongsToUser = result.getUser().getUserName().equals(userName);
+        if (!postBelongsToUser) {
+            throw new BadRequestException(userName);
         }
 
         return result;
