@@ -26,8 +26,8 @@ public class AuthController {
     @PostMapping("/registration")
     public String createNewUser(@ModelAttribute("newUser") BlogUser user) {
         log.info("User details from UI form: {}", user);
-        userService.createUser(user);
         // todo you need to set user role for new user here
+        userService.createUser(user);
         return "redirect:/login";
     }
 
@@ -41,13 +41,26 @@ public class AuthController {
         return "/login";
     }
 
+    @PostMapping("/login")
+    public String openHomePage() {
+        return "redirect:/home";
+    }
+
+
     @GetMapping("/403")
     public String error403() {
         return "/error/403";
     }
 
-    @GetMapping("/error")
+    @GetMapping("/500")
     public String error500() {
-        return "/error/error";
+        return "/error/500";
     }
+
+    @GetMapping("/error")
+    public String error() {
+        return "/error/500";
+    }
+
+
 }

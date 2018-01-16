@@ -19,7 +19,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/about", "/registration").permitAll()
+                .antMatchers("/", "/about", "/registration", "/403", "/500").permitAll()
                 .antMatchers("/home/**").hasAnyRole("USER")
                 .antMatchers("/user/**").hasAnyRole("USER")
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
@@ -29,7 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().permitAll()
                 .and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler).accessDeniedPage("/error/403");
     }
 
     @Autowired
@@ -37,6 +37,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication()
                 .withUser("carlos").password("secret").roles("USER")
                 .and()
-                .withUser("chris").password("secret").roles("ADMIN");
+                .withUser("chris").password("secret").roles("USER");
     }
 }

@@ -20,7 +20,7 @@ public class HomePageController {
     @GetMapping("/")
     public String mainUrl() {
 //        ModelAndView homeModel = new ModelAndView("home");
-        return "/login";
+        return "redirect:/home";
     }
 
     @GetMapping("/home")

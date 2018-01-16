@@ -15,7 +15,7 @@ import java.io.IOException;
 // handle 403 page
 @Component
 @Slf4j
-public class MyAccessDeniedHandler implements AccessDeniedHandler {
+public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest httpServletRequest,
