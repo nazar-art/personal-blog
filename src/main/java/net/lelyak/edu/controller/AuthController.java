@@ -41,12 +41,6 @@ public class AuthController {
         return "/login";
     }
 
-    @PostMapping("/login")
-    public String openHomePage() {
-        return "redirect:/home";
-    }
-
-
     @GetMapping("/403")
     public String error403() {
         return "/error/403";
