@@ -15,8 +15,4 @@ public interface UserService {
     void createUser(BlogUser user);
 
     void updateUser(String userName, BlogUser user);
-
-    void deleteUser(String userName);
-
-    void deleteAllUsers();
 }

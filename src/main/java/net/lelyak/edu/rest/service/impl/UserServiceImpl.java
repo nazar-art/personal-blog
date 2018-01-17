@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.USER);
+        user.setEnabled(Boolean.TRUE);
 
         userRepository.save(user);
     }
@@ -56,21 +57,6 @@ public class UserServiceImpl implements UserService {
         validateUserDBPresence(userName);
         userRepository.save(user);
     }
-
-    @Override
-    public void deleteUser(String userName) {
-        Assert.hasText(userName, "User name is empty");
-        validateUserDBPresence(userName);
-        userRepository.delete(userName);
-    }
-
-    @Override
-    public void deleteAllUsers() {
-        getAllUsers()
-                .forEach(user -> deleteUser(user.getUserName()));
-    }
-
-
 
 
     private void validateUserName(String userName) {

@@ -31,6 +31,7 @@ public class DefaultRestInitializer implements ApplicationRunner {
                 .password("secret")
                 .email("carlos@gmail.com")
                 .role(Role.USER)
+                .enabled(true)
                 .build();
 
         userServiceImpl.createUser(carlos);
@@ -53,7 +54,7 @@ public class DefaultRestInitializer implements ApplicationRunner {
         postServiceImpl.addPost(thirdPost);
 
         BlogUser sailor = BlogUser.builder()
-                .userName("sailor").password("123").email("sailor@gmail.com").role(Role.USER).build();
+                .userName("sailor").password("123").email("sailor@gmail.com").role(Role.USER).enabled(true).build();
         userServiceImpl.createUser(sailor);
 
         Comment commentToFirstPost = Comment.builder().commentText("you are an idiot!")

@@ -8,8 +8,10 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.*;
-import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
 
 /**
  * @author Nazar Lelyak.
@@ -35,6 +37,8 @@ public class BlogUser {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    private boolean enabled;
 
 //    private String email;
 //    private String firstName;
