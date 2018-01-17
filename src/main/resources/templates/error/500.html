@@ -10,7 +10,7 @@
 
 <div th:replace="fragments/header :: header"/>
 
-    <h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
+    <!--<h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>-->
     <p th:utext="${errorMessage}">Error java.lang.NullPointerException</p>
     <a th:href="@{/home}">Back to Home Page</a>
 

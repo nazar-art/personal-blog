@@ -1,6 +1,6 @@
 package net.lelyak.edu.utils.exception;
 
-import net.lelyak.edu.utils.common.StringUtilities;
+import java.text.MessageFormat;
 
 /**
  * @author Nazar Lelyak.
@@ -9,9 +9,9 @@ public class DuplicateEmailException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    private static final String DUPLICATE_EMAIL_EXCEPTION = "This email: [%0$s] is already stored in DB.";
+    private static final String DUPLICATE_EMAIL_EXCEPTION = "This email: {0} is already stored in DB.";
 
     public DuplicateEmailException(String email) {
-        super(StringUtilities.appendStrings(DUPLICATE_EMAIL_EXCEPTION, email));
+        super(MessageFormat.format(DUPLICATE_EMAIL_EXCEPTION, email));
     }
 }
