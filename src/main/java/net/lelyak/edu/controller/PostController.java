@@ -26,27 +26,26 @@ public class PostController {
 
     @GetMapping("/")
     public String mainUrl() {
-        return "redirect:/home";
+        return "redirect:/posts";
     }
 
     /**
      * List all user posts.
      */
-    @GetMapping("/home")
+    @GetMapping("/posts")
     public String userHomePage(Model model, Pageable pageable) {
         String currentUserName = getCurrentUserName();
 //        List<Post> postsByUserName = postServiceImpl.findAllPostsByUserName(currentUserName);
 //        model.addAttribute("posts", postsByUserName);
 
         Page<Post> postsPage = postServiceImpl.listAllPostsByPage(currentUserName, pageable);
-        PageWrapper<Post> page = new PageWrapper<>(postsPage, "/home");
+        PageWrapper<Post> page = new PageWrapper<>(postsPage, "/posts");
 
         model.addAttribute("posts", page.getContent());
         model.addAttribute("page", page);
 
         log.debug("Returning posts:");
-//        return "redirect:/home";
-        return "/home";
+        return "/post/posts";
     }
 
     /**
@@ -96,7 +95,7 @@ public class PostController {
     @GetMapping("post/delete/{postId}")
     public String deletePost(@PathVariable("postId") Long id) {
         postServiceImpl.deletePost(getCurrentUserName(), id);
-        return "redirect:/home";
+        return "redirect:/posts";
     }
 
 
