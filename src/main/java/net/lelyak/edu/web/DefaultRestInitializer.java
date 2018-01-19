@@ -9,7 +9,6 @@ import net.lelyak.edu.rest.service.impl.CommentServiceImpl;
 import net.lelyak.edu.rest.service.impl.PostServiceImpl;
 import net.lelyak.edu.rest.service.impl.UserServiceImpl;
 import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,14 +16,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @AllArgsConstructor
-public class DefaultRestInitializer implements ApplicationRunner {
+public class DefaultRestInitializer /*implements ApplicationRunner*/ {
 
     private final UserServiceImpl userServiceImpl;
     private final PostServiceImpl postServiceImpl;
     private final CommentServiceImpl commentServiceImpl;
 
 
-    @Override
+//    @Override
     public void run(ApplicationArguments args) throws Exception {
         BlogUser carlos = BlogUser.builder()
                 .userName("carlos")

@@ -38,14 +38,4 @@ public class UserResource {
         userService.updateUser(id, user);
     }
 
-    @DeleteMapping(value = "/users/{id}")
-    public void deleteUser(@PathVariable String id) {
-        userService.deleteUser(id);
-    }
-
-    @DeleteMapping(value = "/users")
-    public void deleteAllUsers() {
-        userService.deleteAllUsers();
-    }
-
 }

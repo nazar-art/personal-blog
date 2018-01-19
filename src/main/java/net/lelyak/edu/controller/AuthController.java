@@ -3,7 +3,6 @@ package net.lelyak.edu.controller;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.lelyak.edu.model.BlogUser;
-import net.lelyak.edu.model.Role;
 import net.lelyak.edu.rest.service.impl.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -35,11 +32,6 @@ public class AuthController {
         return "redirect:/login";
     }
 
-    @GetMapping("/about")
-    public String about() {
-        return "/about";
-    }
-
     @GetMapping("/login")
     public String login() {
         return "/login";
@@ -50,7 +42,7 @@ public class AuthController {
         return "/error/403";
     }
 
-    @GetMapping("/500")
+    /*@GetMapping("/500")
     public String error500() {
         return "/error/500";
     }
@@ -58,6 +50,6 @@ public class AuthController {
     @GetMapping("/error")
     public String error() {
         return "/error/500";
-    }
+    }*/
 
 }
