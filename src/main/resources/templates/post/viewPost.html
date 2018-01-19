@@ -20,6 +20,28 @@
                 <label class="col-sm-2 control-label">Post:</label>
                 <div class="col-sm-10">
                     <p class="form-control-static" th:text="${post.postText}"></p>
+
+                    <div th:if="${not #lists.isEmpty(comments)}">
+                        <h3>Comments:</h3>
+                        <table class="table table-striped">
+                            <tr>
+                                <th>#</th>
+                                <th>Comment</th>
+                                <th>Date</th>
+                                <!--<th>View</th>-->
+                                <!--<th>Edit</th>-->
+                                <!--<th>Delete</th>-->
+                            </tr>
+                            <tr th:each="comment:${comments}">
+                                <td th:text="${comment.id}">No.</td>
+                                <td th:text="${comment.commentText}"></td>
+                                <td th:text="${comment.createdDate}"></td>
+                                <!--<td><a th:href="${'/post/' + post.id}" class="btn btn-success btn-xs">View</a></td>-->
+                                <!--<td><a th:href="${'/post/edit/' + post.id}" class="btn btn-warning btn-xs">Edit</a></td>-->
+                                <!--<td><a th:href="${'/post/delete/' + post.id}" class="btn btn-danger btn-xs">Delete</a></td>-->
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </form>

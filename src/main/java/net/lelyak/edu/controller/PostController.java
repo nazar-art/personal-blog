@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Post;
+import net.lelyak.edu.rest.service.impl.CommentServiceImpl;
 import net.lelyak.edu.rest.service.impl.PostServiceImpl;
 import net.lelyak.edu.rest.service.impl.UserServiceImpl;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ public class PostController {
 
     private final PostServiceImpl postServiceImpl;
     private final UserServiceImpl userServiceImpl;
+    private final CommentServiceImpl commentServiceImpl;
 
     @GetMapping("/")
     public String mainUrl() {
@@ -54,6 +56,7 @@ public class PostController {
     @GetMapping("post/{postId}")
     public String viewPost(@PathVariable("postId") Long id, Model model) {
         model.addAttribute("post", postServiceImpl.findPost(getCurrentUserName(), id));
+        model.addAttribute("comments", commentServiceImpl.findAllCommentsByPostId(id));
         return "post/viewPost";
     }
 
