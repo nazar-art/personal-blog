@@ -29,6 +29,9 @@ public class PostController {
         return "redirect:/home";
     }
 
+    /**
+     * List all user posts.
+     */
     @GetMapping("/home")
     public String userHomePage(Model model, Pageable pageable) {
         String currentUserName = getCurrentUserName();
@@ -42,29 +45,44 @@ public class PostController {
         model.addAttribute("page", page);
 
         log.debug("Returning posts:");
-        return "redirect:/home";
+//        return "redirect:/home";
+        return "/home";
     }
 
+    /**
+     * View post details.
+     */
     @GetMapping("post/{postId}")
     public String viewPost(@PathVariable("postId") Long id, Model model) {
         model.addAttribute("post", postServiceImpl.findPost(getCurrentUserName(), id));
         return "post/viewPost";
     }
 
+    /**
+     * Open create new post page.
+     */
     @GetMapping("/post/new")
     public String createPost(Model model) {
-        String currentUserName = getCurrentUserName();
-        BlogUser currentUser = userServiceImpl.getUser(currentUserName);
-        model.addAttribute("post", Post.builder().user(currentUser).build());
+        model.addAttribute("post", Post.builder().build());
         return "post/addPost";
     }
 
+    /**
+     * Save new post to DB.
+     */
     @PostMapping(value = "post")
     public String savePost(Post post) {
+        String currentUserName = getCurrentUserName();
+        BlogUser currentUser = userServiceImpl.getUser(currentUserName);
+
+        post.setUser(currentUser);
         postServiceImpl.addPost(post);
         return "redirect:/post/" + post.getId();
     }
 
+    /**
+     * Edit created post
+     */
     @GetMapping("/post/edit/{postId}")
     public String editPost(@PathVariable("postId") Long id, Model model) {
         Post postToEdit = postServiceImpl.findPost(getCurrentUserName(), id);
@@ -72,6 +90,9 @@ public class PostController {
         return "post/addPost";
     }
 
+    /**
+     * Delete created post.
+     */
     @GetMapping("post/delete/{postId}")
     public String deletePost(@PathVariable("postId") Long id) {
         postServiceImpl.deletePost(getCurrentUserName(), id);
