@@ -2,9 +2,9 @@ package net.lelyak.edu.rest.service.impl;
 
 
 import com.google.common.collect.Lists;
+import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Role;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,15 +18,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service("blogDTS")
-//@AllArgsConstructor
+@AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-
     private UserServiceImpl userService;
-
-    @Autowired
-    public void setUserService(UserServiceImpl service) {
-        userService = service;
-    }
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
