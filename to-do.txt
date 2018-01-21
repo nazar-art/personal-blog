@@ -8,3 +8,7 @@
 - Hibernate with Spring Boot integration
 - convert `createdDate` to specific format before saving to DB
 
+Useful references:
+
+    http://www.baeldung.com/circular-dependencies-in-spring
+
