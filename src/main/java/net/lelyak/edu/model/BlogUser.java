@@ -8,10 +8,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * @author Nazar Lelyak.
@@ -20,7 +17,7 @@ import javax.persistence.Id;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity @Table(name = "users")
 public class BlogUser {
 
     @Id
@@ -40,10 +37,4 @@ public class BlogUser {
 
     private boolean enabled;
 
-//    private String email;
-//    private String firstName;
-//    private String lastName;
-
-//    private boolean admin;
-//    private String image;
 }
