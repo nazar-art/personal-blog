@@ -23,9 +23,9 @@ import javax.sql.DataSource;
 @AllArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private DataSource dataSource;
+    /*private DataSource dataSource;
     @Qualifier("blogDTS")
-    private UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;*/
     private AccessDeniedHandler accessDeniedHandler;
 
 
@@ -42,8 +42,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/posts")
-                .and()
-                .rememberMe().tokenValiditySeconds(10_000).tokenRepository(persistentTokenRepository())
+                /*.and()
+                .rememberMe().tokenValiditySeconds(10_000).tokenRepository(persistentTokenRepository())*/
                 .and()
                 .logout().permitAll()
                 .and()
@@ -52,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        /*auth.inMemoryAuthentication()
+        auth.inMemoryAuthentication()
                 .withUser("carlos")
                 .password("$2a$10$fB4clVkfjAba02mwIJidqOiCGv6tPV7n5/vkbfEfQAmsu6WMhF5Bi")
                 .roles("USER")
@@ -60,10 +60,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .withUser("chris")
                 .password("$2a$10$fB4clVkfjAba02mwIJidqOiCGv6tPV7n5/vkbfEfQAmsu6WMhF5Bi")
                 .roles("USER")
-        .and().passwordEncoder(passwordEncoder());*/
+        .and().passwordEncoder(passwordEncoder());
 
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
+        /*auth.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());*/
     }
 
     @Bean
@@ -71,7 +71,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Override
+    /*@Override
     protected UserDetailsService userDetailsService() {
         return userDetailsService;
     }
@@ -81,7 +81,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
         db.setDataSource(dataSource);
         return db;
-    }
+    }*/
 
     @Bean
     public SavedRequestAwareAuthenticationSuccessHandler

@@ -47,7 +47,7 @@ public class PostServiceImpl implements PostService {
         validateDbPresence(userName);
 
 //        Post result = postRepository.findOne(id);
-//        validateUrlParameters(userName, result);
+//        validateRestUrlParameters(userName, result);
 //        return result;
 
         return postRepository.findOne(id);
@@ -62,7 +62,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public void updatePost(String userName, Long id, Post post) {
         validateDbPresence(userName);
-        validateUrlParameters(userName, findPost(userName, id));
+        validateRestUrlParameters(userName, findPost(userName, id));
 
         postRepository.save(post);
     }
@@ -70,8 +70,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deletePost(String userName, Long id) {
         validateDbPresence(userName);
-//        validateUrlParameters(userName, findPost(userName, id));
-
+//        validateRestUrlParameters(userName, findPost(userName, id));
         postRepository.delete(id);
     }
 
@@ -82,7 +81,7 @@ public class PostServiceImpl implements PostService {
     }
 
 
-    private void validateUrlParameters(String userName, Post result) {
+    private void validateRestUrlParameters(String userName, Post result) {
         boolean postBelongsToUser = result.getUser().getUserName().equals(userName);
         if (!postBelongsToUser) {
             throw new BadRequestException(userName);

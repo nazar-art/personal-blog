@@ -6,3 +6,5 @@ CREATE TABLE "persistent_logions"(
   updated_at TIMESTAMP DEFAULT 'now'::timestamp,
   PRIMARY KEY ("series")
 );
+
+SELECT * FROM blog_user;

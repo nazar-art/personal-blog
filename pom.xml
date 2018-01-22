@@ -105,12 +105,6 @@
             <artifactId>postgresql</artifactId>
         </dependency>
 
-        <!--<dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.196</version>
-        </dependency>-->
-
         <!-- optional, it brings userful tags to display spring security stuff -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
