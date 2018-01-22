@@ -5,6 +5,8 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Role;
+import net.lelyak.edu.rest.repository.UserRepository;
+import net.lelyak.edu.utils.exception.NotPresentedInDbException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,15 +19,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Service("blogDTS")
+@Service
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private UserServiceImpl userService;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 
-        BlogUser user = userService.getUser(username);
+        BlogUser user = userRepository.findByUserName(username)
+                .orElseThrow(NotPresentedInDbException::new);
         List<GrantedAuthority> authorities = buildUserAuthority(user.getRole());
 
         return buildUserForAuthentication(user, authorities);

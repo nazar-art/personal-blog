@@ -8,3 +8,7 @@ CREATE TABLE "persistent_logions"(
 );
 
 SELECT * FROM blog_user;
+
+SELECT * FROM post;
+
+DELETE FROM blog_user;
