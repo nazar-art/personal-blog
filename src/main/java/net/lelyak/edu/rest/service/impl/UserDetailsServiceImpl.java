@@ -15,9 +15,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -29,14 +26,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         BlogUser user = userRepository.findByUserName(username)
                 .orElseThrow(NotPresentedInDbException::new);
-        List<GrantedAuthority> authorities = buildUserAuthority(user.getRole());
 
-        return buildUserForAuthentication(user, authorities);
-
+        return buildUserForAuthentication(user);
     }
 
-    private org.springframework.security.core.userdetails.User buildUserForAuthentication(BlogUser user,
-                                                                                          List<GrantedAuthority> authorities) {
+    private org.springframework.security.core.userdetails.User buildUserForAuthentication(BlogUser user) {
+
+        SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getRole().name());
+        List<GrantedAuthority> authorities = Lists.newArrayList(grantedAuthority);
+
         return new org.springframework.security.core.userdetails.User(
                 user.getUserName(),
                 user.getPassword(),
@@ -46,11 +44,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 true,
                 authorities);
     }
-
-    private List<GrantedAuthority> buildUserAuthority(Role userRole) {
-        Set<GrantedAuthority> setAuths = Stream.of(new SimpleGrantedAuthority(userRole.name()))
-                .collect(Collectors.toSet());
-        return Lists.newArrayList(setAuths);
-    }
-
 }

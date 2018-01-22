@@ -17,14 +17,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @AllArgsConstructor
-public class DefaultRestInitializer implements ApplicationRunner {
+public class DefaultRestInitializer /*implements ApplicationRunner*/ {
 
     private final UserServiceImpl userServiceImpl;
     private final PostServiceImpl postServiceImpl;
     private final CommentServiceImpl commentServiceImpl;
 
 
-    @Override
+//    @Override
     public void run(ApplicationArguments args) throws Exception {
         BlogUser carlos = BlogUser.builder()
                 .userName("carlos")

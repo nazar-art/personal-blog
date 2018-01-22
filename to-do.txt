@@ -2,10 +2,10 @@
 
 + REST Api for user registration
 + check email uniques for email & user name / validation (?) -> create exceptions layer for validators
++ login & registration (Basic)
++ validation at service layer for correct url params
++/- Hibernate with Spring Boot integration
 
-+/- login & registration (Basic/OAuth)
-- validation at service layer for correct url params
-- Hibernate with Spring Boot integration
 - convert `createdDate` to specific format before saving to DB
 
 Useful references:
