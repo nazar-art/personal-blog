@@ -1,5 +1,6 @@
 package net.lelyak.edu.dao.impl;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,22 +8,27 @@ import net.lelyak.edu.dao.GenericDao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.List;
 
-@NoArgsConstructor
+@Component
+@AllArgsConstructor
 public abstract class AbstractGenericDao<ENTITY, ID extends Serializable> implements GenericDao<ENTITY, ID> {
 
+    @Getter
+    private SessionFactory sessionFactory;
     private Class<ENTITY> entityClass;
+
+    protected AbstractGenericDao() {
+    }
 
     protected AbstractGenericDao(Class<ENTITY> entityClass) {
         super();
         this.entityClass = entityClass;
     }
-
-    @Getter @Setter
-    private SessionFactory sessionFactory;
 
     @Override
     public List<ENTITY> getAll() {

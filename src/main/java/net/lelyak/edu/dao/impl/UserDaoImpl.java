@@ -20,19 +20,21 @@ public class UserDaoImpl extends AbstractGenericDao<BlogUser, String> implements
 
     @Override
     public BlogUser findByUserName(String name) {
-        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(BlogUser.class);
-        criteria.add(Restrictions.eq("userName", name));
-        BlogUser user = (BlogUser) criteria.list().get(0);
-        log.info("Getting user from DB: {}", user);
+        BlogUser user = (BlogUser) getSessionFactory().getCurrentSession().createCriteria(BlogUser.class)
+        .add(Restrictions.eq("userName", name))
+        .list().get(0);
+
+        log.info("Getting user from DB: {} by name: {}", user, name);
         return user;
     }
 
     @Override
     public BlogUser findByEmail(String email) {
-        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(BlogUser.class);
-        criteria.add(Restrictions.eq("email", email));
-        BlogUser user = (BlogUser) criteria.list().get(0);
-        log.info("Getting user from DB: {}", user);
+        BlogUser user = (BlogUser) getSessionFactory().getCurrentSession().createCriteria(BlogUser.class)
+        .add(Restrictions.eq("email", email))
+        .list().get(0);
+
+        log.info("Getting user from DB: {} by email: {}", user, email);
         return user;
     }
 }
