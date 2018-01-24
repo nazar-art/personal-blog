@@ -3,6 +3,7 @@ package net.lelyak.edu.rest.service.impl;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Post;
 import net.lelyak.edu.utils.exception.BadRequestException;
 import net.lelyak.edu.utils.exception.NotPresentedInDbException;
@@ -11,10 +12,13 @@ import net.lelyak.edu.rest.repository.UserRepository;
 import net.lelyak.edu.rest.service.PostService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Nazar Lelyak.
@@ -30,30 +34,31 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> findAllPostsByUserName(String userName) {
         List<Post> result = Lists.newArrayList();
-        result.addAll(postRepository.findByUser_UserName(userName));
+        Optional<BlogUser> user = userRepository.findByUserName(userName);
+        result.addAll(postRepository.findByUser(user.get()));
         return result;
     }
 
     @Override
-    public Page<Post> listAllPostsByPage(String userName, Pageable pageable) {
+    public Page<Post> listAllPostsByPage(Pageable pageable) {
+        String userName = getCurrentUserName();
         Page<Post> postsPage = postRepository.findByUser_UserName(userName, pageable);
+
         log.info("Posts page object: {} with pages: {} and total elements: {}",
                 postsPage, postsPage.getTotalPages(), postsPage.getTotalElements());
+
         return postsPage;
     }
 
     @Override
-    public Post findPost(String userName, Long id) {
+    public Post findPost(Long id) {
+        String userName = getCurrentUserName();
         validateDbPresence(userName);
-        // TODO: 1/24/18 change validation to Authorisation object => take the user and validate
-//        Post result = postRepository.findOne(id);
-//        validateRestUrlParameters(userName, result);
-//        return result;
-        //REST users/nnnnnnnnnn/posts
 
-        //UI   /posts/new
+        Post result = postRepository.findOne(id);
+        validatePostRelevance(userName, result);
 
-        return postRepository.findOne(id);
+        return result;
     }
 
     @Override
@@ -63,28 +68,33 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void updatePost(String userName, Long id, Post post) {
+    public void updatePost(Long id, Post post) {
+        String userName = getCurrentUserName();
+
         validateDbPresence(userName);
-        validateRestUrlParameters(userName, findPost(userName, id));
+        validatePostRelevance(userName, findPost(id));
 
         postRepository.save(post);
     }
 
     @Override
-    public void deletePost(String userName, Long id) {
+    public void deletePost(Long id) {
+        String userName = getCurrentUserName();
+
         validateDbPresence(userName);
-//        validateRestUrlParameters(userName, findPost(userName, id));
+        validatePostRelevance(userName, findPost(id));
+
         postRepository.delete(id);
     }
 
     @Override
     public void deleteAllPostsByUserName(String userName) {
         findAllPostsByUserName(userName)
-                .forEach(post -> deletePost(userName, post.getId()));
+                .forEach(post -> deletePost(post.getId()));
     }
 
 
-    private void validateRestUrlParameters(String userName, Post result) {
+    private void validatePostRelevance(String userName, Post result) {
         boolean postBelongsToUser = result.getUser().getUserName().equals(userName);
         if (!postBelongsToUser) {
             throw new BadRequestException(userName);
@@ -95,5 +105,13 @@ public class PostServiceImpl implements PostService {
         if (!userRepository.exists(userName)) {
             throw new NotPresentedInDbException(userName);
         }
+    }
+
+    private String getCurrentUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+
+        log.debug("Current USER_NAME: {}", userName);
+        return userName;
     }
 }

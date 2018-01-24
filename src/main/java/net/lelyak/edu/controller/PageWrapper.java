@@ -4,11 +4,16 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Slf4j
 @Getter @Setter
 public class PageWrapper<T> {
 
@@ -24,6 +29,10 @@ public class PageWrapper<T> {
         this.page = page;
         this.url = url;
         items = Lists.newArrayList();
+
+        if (null == postsNumber) {
+            postsNumber = 5;
+        }
 
         currentNumber = page.getNumber() + 1; //start from 1 to match page.page
 
@@ -49,15 +58,15 @@ public class PageWrapper<T> {
         }
     }
 
-    /*public int getNumber() {
+    public int getNumber() {
         return currentNumber;
-    }*/
+    }
 
     public List<T> getContent() {
         return page.getContent();
     }
 
-    /*public int getSize() {
+    public int getSize() {
         return page.getSize();
     }
 
@@ -83,7 +92,7 @@ public class PageWrapper<T> {
 
     public boolean isHasNextPage() {
         return page.hasNext();
-    }*/
+    }
 
     @Getter
     @AllArgsConstructor

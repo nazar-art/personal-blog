@@ -15,9 +15,9 @@ import java.util.Optional;
  */
 public interface PostRepository extends CrudRepository<Post, Long> {
 
-    Optional<List<Post>> findByUser(BlogUser user);
+    List<Post> findByUser(BlogUser user);
 
-    List<Post> findByUser_UserName(String userName);
+//    List<Post> findByUser_UserName(String userName);
 
     Page<Post> findByUser_UserName(String userId, Pageable pageable);
 

@@ -13,15 +13,15 @@ public interface PostService {
 
     List<Post> findAllPostsByUserName(String userName);
 
-    Page<Post> listAllPostsByPage(String userName, Pageable pageable);
+    Page<Post> listAllPostsByPage(Pageable pageable);
 
-    Post findPost(String userName, Long id);
+    Post findPost(Long id);
 
     void addPost(Post post);
 
-    void updatePost(String userName, Long id, Post post);
+    void updatePost(Long id, Post post);
 
-    void deletePost(String userName, Long id);
+    void deletePost(Long id);
 
     void deleteAllPostsByUserName(String userName);
 }

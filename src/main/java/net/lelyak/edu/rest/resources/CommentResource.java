@@ -21,36 +21,38 @@ public class CommentResource {
     private final PostService postService;
     private final UserService userService;
 
-    @GetMapping(value = "v1/users/{userId}/posts/{postId}/comments")
+    @GetMapping(value = "/users/{userId}/posts/{postId}/comments")
     public List<Comment> findAllComments(@PathVariable Long postId) {
         return commentService.findAllCommentsByPostId(postId);
     }
 
-    @GetMapping(value = "v1/users/{userId}/posts/{postId}/comments/{id}")
+    @GetMapping(value = "/users/{userId}/posts/{postId}/comments/{id}")
     public CommentLinksResource getComment(@PathVariable Long id) {
+
         Comment comment = commentService.findComment(id);
         return new CommentLinksResource(comment);
     }
 
-    @PostMapping(value = "v1/users/{userId}/posts/{postId}/comments")
+    @PostMapping(value = "/users/{userId}/posts/{postId}/comments")
     public void addComment(@PathVariable String userId, @PathVariable Long postId, @RequestBody Comment comment) {
+
         comment.setUser(userService.getUser(userId));
-        comment.setPost(postService.findPost(userId, postId));
+        comment.setPost(postService.findPost(postId));
 
         commentService.addComment(comment);
     }
 
-    @PutMapping(value = "v1/users/{userId}/posts/{postId}/comments/{id}")
+    @PutMapping(value = "/users/{userId}/posts/{postId}/comments/{id}")
     public void updateComment(@PathVariable Long id, @RequestBody Comment comment) {
         commentService.updateComment(id, comment);
     }
 
-    @DeleteMapping(value = "v1/users/{userId}/posts/{psotId}/comments/{id}")
+    @DeleteMapping(value = "/users/{userId}/posts/{psotId}/comments/{id}")
     public void deleteComment(@PathVariable Long id) {
         commentService.deleteComment(id);
     }
 
-    @DeleteMapping(value = "v1/users/{userId}/posts/{postId}/comments")
+    @DeleteMapping(value = "/users/{userId}/posts/{postId}/comments")
     public void deleteAllComments(@PathVariable Long postId) {
         commentService.deleteAllCommentsByPostId(postId);
     }

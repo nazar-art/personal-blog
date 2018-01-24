@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @AllArgsConstructor
@@ -26,26 +27,20 @@ public class PostController {
     private final UserServiceImpl userServiceImpl;
     private final CommentServiceImpl commentServiceImpl;
 
-    @GetMapping("/")
-    public String mainUrl() {
-        return "redirect:/posts";
-    }
-
     /**
      * List all user posts.
      */
     @GetMapping("/posts")
     public String userHomePage(Model model, Pageable pageable) {
-        String currentUserName = getCurrentUserName();
 
-        Page<Post> postsPage = postServiceImpl.listAllPostsByPage(currentUserName, pageable);
+        Page<Post> postsPage = postServiceImpl.listAllPostsByPage(pageable);
         PageWrapper<Post> page = new PageWrapper<>(postsPage, "/posts");
 
         model.addAttribute("posts", page.getContent());
         model.addAttribute("page", page);
 
         log.debug("Returning posts:");
-        return "/post/posts";
+        return "post/posts";
     }
 
     /**
@@ -53,7 +48,7 @@ public class PostController {
      */
     @GetMapping("post/{postId}")
     public String viewPost(@PathVariable("postId") Long id, Model model) {
-        model.addAttribute("post", postServiceImpl.findPost(getCurrentUserName(), id));
+        model.addAttribute("post", postServiceImpl.findPost(id));
         model.addAttribute("comments", commentServiceImpl.findAllCommentsByPostId(id));
         return "post/viewPost";
     }
@@ -77,7 +72,7 @@ public class PostController {
 
         post.setUser(currentUser);
         postServiceImpl.addPost(post);
-        return "redirect:/post/" + post.getId();
+        return "redirect:post/" + post.getId();
     }
 
     /**
@@ -85,7 +80,7 @@ public class PostController {
      */
     @GetMapping("/post/edit/{postId}")
     public String editPost(@PathVariable("postId") Long id, Model model) {
-        Post postToEdit = postServiceImpl.findPost(getCurrentUserName(), id);
+        Post postToEdit = postServiceImpl.findPost(id);
         model.addAttribute("post", postToEdit);
         return "post/addPost";
     }
@@ -95,15 +90,16 @@ public class PostController {
      */
     @GetMapping("post/delete/{postId}")
     public String deletePost(@PathVariable("postId") Long id) {
-        postServiceImpl.deletePost(getCurrentUserName(), id);
-        return "redirect:/posts";
+        postServiceImpl.deletePost(id);
+        return "redirect:posts";
     }
 
 
+
     private String getCurrentUserName() {
-        Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
+
         log.debug("Defining current user name: {}", userName);
         return userName;
     }

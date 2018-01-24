@@ -19,35 +19,35 @@ public class PostResource {
     private final PostService postService;
     private final UserService userService;
 
-    @GetMapping(value = "v1/users/{userId}/posts")
+    @GetMapping(value = "/users/{userId}/posts")
     public List<Post> getAllPosts(@PathVariable String userId) {
         return postService.findAllPostsByUserName(userId);
     }
 
-    @GetMapping(value = "v1/users/{userId}/posts/{id}")
-    public PostLinksResource getPost(@PathVariable String userId, @PathVariable Long id) {
-        Post post = postService.findPost(userId, id);
+    @GetMapping(value = "/users/{userId}/posts/{id}")
+    public PostLinksResource getPost(@PathVariable Long id) {
+        Post post = postService.findPost(id);
         return new PostLinksResource(post);
     }
 
-    @PostMapping(value = "v1/users/{userId}/posts")
+    @PostMapping(value = "/users/{userId}/posts")
     public void addPost(@PathVariable String userId, @RequestBody Post post) {
         post.setUser(userService.getUser(userId));
 
         postService.addPost(post);
     }
 
-    @PutMapping(value = "v1/users/{userId}/posts/{id}")
-    public void updatePost(@PathVariable String userId, @PathVariable Long id, @RequestBody Post post) {
-        postService.updatePost(userId, id, post);
+    @PutMapping(value = "/users/{userId}/posts/{id}")
+    public void updatePost(@PathVariable Long id, @RequestBody Post post) {
+        postService.updatePost(id, post);
     }
 
-    @DeleteMapping(value = "v1/users/{userId}/posts/{id}")
-    public void deletePost(@PathVariable String userId, @PathVariable Long id) {
-        postService.deletePost(userId, id);
+    @DeleteMapping(value = "/users/{userId}/posts/{id}")
+    public void deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
     }
 
-    @DeleteMapping(value = "v1/users/{userId}/posts")
+    @DeleteMapping(value = "/users/{userId}/posts")
     public void deleteAllPosts(@PathVariable String userId) {
         postService.deleteAllPostsByUserName(userId);
     }

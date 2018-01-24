@@ -22,6 +22,11 @@ public class AuthController {
 
     private final UserServiceImpl userServiceImpl;
 
+    @GetMapping("/")
+    public String mainUrl() {
+        return "redirect:/posts";
+    }
+
     @GetMapping("/registration")
     public String openRegisterPage(Model model) {
         model.addAttribute("newUser", new BlogUser());
