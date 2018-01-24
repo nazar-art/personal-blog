@@ -3,9 +3,9 @@ package net.lelyak.edu.rest.resources;
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.Comment;
 import net.lelyak.edu.rest.config.CommentLinksResource;
-import net.lelyak.edu.rest.service.ICommentService;
-import net.lelyak.edu.rest.service.IPostService;
-import net.lelyak.edu.rest.service.IUserService;
+import net.lelyak.edu.rest.service.CommentService;
+import net.lelyak.edu.rest.service.PostService;
+import net.lelyak.edu.rest.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,9 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 public class CommentResource {
 
-    private final ICommentService commentService;
-    private final IPostService postService;
-    private final IUserService userService;
+    private final CommentService commentService;
+    private final PostService postService;
+    private final UserService userService;
 
     @GetMapping(value = "/users/{userId}/posts/{postId}/comments")
     public List<Comment> findAllComments(@PathVariable Long postId) {
@@ -28,14 +28,16 @@ public class CommentResource {
 
     @GetMapping(value = "/users/{userId}/posts/{postId}/comments/{id}")
     public CommentLinksResource getComment(@PathVariable Long id) {
+
         Comment comment = commentService.findComment(id);
         return new CommentLinksResource(comment);
     }
 
     @PostMapping(value = "/users/{userId}/posts/{postId}/comments")
     public void addComment(@PathVariable String userId, @PathVariable Long postId, @RequestBody Comment comment) {
+
         comment.setUser(userService.getUser(userId));
-        comment.setPost(postService.findPost(userId, postId));
+        comment.setPost(postService.findPost(postId));
 
         commentService.addComment(comment);
     }

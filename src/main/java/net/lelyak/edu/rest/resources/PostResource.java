@@ -3,8 +3,8 @@ package net.lelyak.edu.rest.resources;
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.Post;
 import net.lelyak.edu.rest.config.PostLinksResource;
-import net.lelyak.edu.rest.service.IPostService;
-import net.lelyak.edu.rest.service.IUserService;
+import net.lelyak.edu.rest.service.PostService;
+import net.lelyak.edu.rest.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 public class PostResource {
 
-    private final IPostService postService;
-    private final IUserService userService;
+    private final PostService postService;
+    private final UserService userService;
 
     @GetMapping(value = "/users/{userId}/posts")
     public List<Post> getAllPosts(@PathVariable String userId) {
@@ -25,8 +25,8 @@ public class PostResource {
     }
 
     @GetMapping(value = "/users/{userId}/posts/{id}")
-    public PostLinksResource getPost(@PathVariable String userId, @PathVariable Long id) {
-        Post post = postService.findPost(userId, id);
+    public PostLinksResource getPost(@PathVariable Long id) {
+        Post post = postService.findPost(id);
         return new PostLinksResource(post);
     }
 
@@ -38,13 +38,13 @@ public class PostResource {
     }
 
     @PutMapping(value = "/users/{userId}/posts/{id}")
-    public void updatePost(@PathVariable String userId, @PathVariable Long id, @RequestBody Post post) {
-        postService.updatePost(userId, id, post);
+    public void updatePost(@PathVariable Long id, @RequestBody Post post) {
+        postService.updatePost(id, post);
     }
 
     @DeleteMapping(value = "/users/{userId}/posts/{id}")
-    public void deletePost(@PathVariable String userId, @PathVariable Long id) {
-        postService.deletePost(userId, id);
+    public void deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
     }
 
     @DeleteMapping(value = "/users/{userId}/posts")

@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>BlogUser Posts Page</title>
+
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h4 th:inline="text">Home Page: [[${#httpServletRequest.remoteUser}]]</h4>
+
+        <div th:if="${not #lists.isEmpty(posts)}">
+            <!--<h2 sec:authentication="name">Posts</h2>-->
+            <h3>Posts:</h3>
+            <table class="table table-striped">
+                <tr>
+                    <th>#</th>
+                    <th>Post</th>
+                    <th>Date</th>
+                    <th>View</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                <tr th:each="post,iterationStatus : ${posts}">
+                    <td th:text="${iterationStatus.count + (page.size * (page.number-1))}">No.</td>
+                    <td th:text="${post.postText}"></td>
+                    <td th:text="${post.createdDate}"></td>
+                    <td><a th:href="${ '/post/' + post.id}" class="btn btn-success btn-xs">View</a></td>
+                    <td><a th:href="${'/post/edit/' + post.id}" class="btn btn-warning btn-xs">Edit</a></td>
+                    <td><a th:href="${'/post/delete/' + post.id}" class="btn btn-danger btn-xs">Delete</a></td>
+                </tr>
+                <!--<tr th:each="post : ${posts}">-->
+                    <!--<td th:text="${post.postText}"></td>-->
+                    <!--<td th:text="${post.createdDate}"></td>-->
+                <!--</tr>-->
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="pagination"><p>Page <span class="badge"
+                                                       th:text="${page.size * (page.number-1) + 1}"></span> with
+                <span class="badge" th:text="${page.lastPage ? page.totalElements : page.size * (page.number-1)+ page.size}"></span> posts from
+                <span class="badge"
+                      th:text="${page.totalElements}"> total elements</span>
+                posts</p></div>
+        </div>
+
+        <div class="col-sm-7">
+            <!-- Pagination Bar -->
+            <div th:fragment='paginationbar'>
+                <div class="text-center">
+                    <ul class='pagination pagination-centered'>
+                        <li th:class="${page.firstPage}?'disabled':''">
+                            <span th:if='${page.firstPage}'>← First</span>
+                            <a th:if='${not page.firstPage}' th:href='@{${page.url}(page=0,size=${page.size})}'>←
+                                First</a>
+                        </li>
+                        <li th:class="${page.hasPreviousPage}? '' : 'disabled'">
+                            <span th:if='${not page.hasPreviousPage}'>«</span>
+                            <a th:if='${page.hasPreviousPage}'
+                               th:href='@{${page.url}(page=${page.number-2},size=${page.size})}'
+                               title='Go to previous page'>«</a>
+                        </li>
+                        <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : ''">
+                            <span th:if='${item.current}' th:text='${item.number}'>1</span>
+                            <a th:if='${not item.current}'
+                               th:href='@{${page.url}(page=${item.number-1},size=${page.size})}'><span
+                                    th:text='${item.number}'>1</span></a>
+                        </li>
+                        <li th:class="${page.hasNextPage}? '' : 'disabled'">
+                            <span th:if='${not page.hasNextPage}'>»</span>
+                            <a th:if='${page.hasNextPage}'
+                               th:href='@{${page.url}(page=${page.number},size=${page.size})}'
+                               title='Go to next page'>»</a>
+                        </li>
+                        <li th:class="${page.lastPage}? 'disabled' : ''">
+                            <span th:if='${page.lastPage}'>Last →</span>
+                            <a th:if='${not page.lastPage}'
+                               th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>Last →</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

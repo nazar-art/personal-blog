@@ -3,7 +3,7 @@ package net.lelyak.edu.rest.resources;
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.rest.config.BlogUserResource;
-import net.lelyak.edu.rest.service.IUserService;
+import net.lelyak.edu.rest.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserResource {
 
-    private IUserService userService;
+    private UserService userService;
 
     @GetMapping(value = "/users")
     public List<BlogUser> getAllUsers() {
@@ -36,16 +36,6 @@ public class UserResource {
     @PutMapping(value = "/users/{id}")
     public void updateUser(@PathVariable String id, @RequestBody BlogUser user) {
         userService.updateUser(id, user);
-    }
-
-    @DeleteMapping(value = "/users/{id}")
-    public void deleteUser(@PathVariable String id) {
-        userService.deleteUser(id);
-    }
-
-    @DeleteMapping(value = "/users")
-    public void deleteAllUsers() {
-        userService.deleteAllUsers();
     }
 
 }

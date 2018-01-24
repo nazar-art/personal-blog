@@ -24,7 +24,7 @@ public class PostLinksResource extends ResourceSupport {
         this.post = post;
 
         this.add(ControllerLinkBuilder.linkTo(methodOn(PostResource.class, postId)
-                .getPost(userName, postId)).withSelfRel());
+                .getPost(postId)).withSelfRel());
         this.add(ControllerLinkBuilder.linkTo(methodOn(PostResource.class)
                 .getAllPosts(userName)).withRel("posts-all"));
 

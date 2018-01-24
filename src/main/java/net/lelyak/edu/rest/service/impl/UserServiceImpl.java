@@ -2,11 +2,13 @@ package net.lelyak.edu.rest.service.impl;
 
 import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.BlogUser;
+import net.lelyak.edu.model.Role;
 import net.lelyak.edu.rest.repository.UserRepository;
-import net.lelyak.edu.rest.service.IUserService;
+import net.lelyak.edu.rest.service.UserService;
 import net.lelyak.edu.utils.exception.DuplicateEmailException;
 import net.lelyak.edu.utils.exception.DuplicateUserNameException;
 import net.lelyak.edu.utils.exception.NotPresentedInDbException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -18,8 +20,9 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
-public class UserService implements IUserService {
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<BlogUser> getAllUsers() {
@@ -41,6 +44,10 @@ public class UserService implements IUserService {
         validateUserName(user.getUserName());
         validateUserEmail(user.getEmail());
 
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.USER);
+        user.setEnabled(Boolean.TRUE);
+
         userRepository.save(user);
     }
 
@@ -50,21 +57,6 @@ public class UserService implements IUserService {
         validateUserDBPresence(userName);
         userRepository.save(user);
     }
-
-    @Override
-    public void deleteUser(String userName) {
-        Assert.hasText(userName, "User name is empty");
-        validateUserDBPresence(userName);
-        userRepository.delete(userName);
-    }
-
-    @Override
-    public void deleteAllUsers() {
-        getAllUsers()
-                .forEach(user -> deleteUser(user.getUserName()));
-    }
-
-
 
 
     private void validateUserName(String userName) {

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author Nazar Lelyak.
  */
-public interface IUserService {
+public interface UserService {
     List<BlogUser> getAllUsers();
 
     BlogUser getUser(String userName);
@@ -15,8 +15,4 @@ public interface IUserService {
     void createUser(BlogUser user);
 
     void updateUser(String userName, BlogUser user);
-
-    void deleteUser(String userName);
-
-    void deleteAllUsers();
 }
