@@ -27,7 +27,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/registration").permitAll()
-                .antMatchers("/posts/**", "/post/*").authenticated()
+                .antMatchers("/posts/**", "/post/**", "/users/**").authenticated()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").permitAll()
@@ -36,6 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/posts")
                 .and()
                 .logout().permitAll()
+                .and().httpBasic()
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler).accessDeniedPage("/403");
     }

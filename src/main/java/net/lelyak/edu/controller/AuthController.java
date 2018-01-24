@@ -29,7 +29,6 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-//    public ModelAndView createNewUser(@ModelAttribute("newUser") BlogUser user, BindingResult bindingResult) {
     public ModelAndView createNewUser(@Valid BlogUser user, BindingResult bindingResult) {
 
         ModelAndView modelAndView = new ModelAndView();

@@ -37,8 +37,6 @@ public class PostController {
     @GetMapping("/posts")
     public String userHomePage(Model model, Pageable pageable) {
         String currentUserName = getCurrentUserName();
-//        List<Post> postsByUserName = postServiceImpl.findAllPostsByUserName(currentUserName);
-//        model.addAttribute("posts", postsByUserName);
 
         Page<Post> postsPage = postServiceImpl.listAllPostsByPage(currentUserName, pageable);
         PageWrapper<Post> page = new PageWrapper<>(postsPage, "/posts");

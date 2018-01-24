@@ -15,15 +15,7 @@ public class NotPresentedInDbException extends RuntimeException {
         super();
     }
 
-    public NotPresentedInDbException(String description, Throwable reason) {
-        super(MessageFormat.format(USER_NOT_FOUND_EXCEPTION, description, reason.getMessage()), reason);
-    }
-
     public NotPresentedInDbException(String id) {
         super(MessageFormat.format(USER_NOT_FOUND_EXCEPTION, id));
-    }
-
-    public NotPresentedInDbException(Throwable exceptionMessage) {
-        super(exceptionMessage);
     }
 }

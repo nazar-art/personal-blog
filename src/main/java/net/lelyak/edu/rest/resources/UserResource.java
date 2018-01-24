@@ -17,23 +17,23 @@ public class UserResource {
 
     private UserService userService;
 
-    @GetMapping(value = "/users")
+    @GetMapping(value = "v1/users")
     public List<BlogUser> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @GetMapping(value = "/users/{id}")
+    @GetMapping(value = "v1/users/{id}")
     public BlogUserResource getUser(@PathVariable String id) {
         BlogUser user = userService.getUser(id);
         return new BlogUserResource(user);
     }
 
-    @PostMapping(value = "/users")
+    @PostMapping(value = "v1/users")
     public void addUser(@RequestBody BlogUser user) {
         userService.createUser(user);
     }
 
-    @PutMapping(value = "/users/{id}")
+    @PutMapping(value = "v1/users/{id}")
     public void updateUser(@PathVariable String id, @RequestBody BlogUser user) {
         userService.updateUser(id, user);
     }

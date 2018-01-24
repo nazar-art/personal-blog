@@ -19,35 +19,35 @@ public class PostResource {
     private final PostService postService;
     private final UserService userService;
 
-    @GetMapping(value = "/users/{userId}/posts")
+    @GetMapping(value = "v1/users/{userId}/posts")
     public List<Post> getAllPosts(@PathVariable String userId) {
         return postService.findAllPostsByUserName(userId);
     }
 
-    @GetMapping(value = "/users/{userId}/posts/{id}")
+    @GetMapping(value = "v1/users/{userId}/posts/{id}")
     public PostLinksResource getPost(@PathVariable String userId, @PathVariable Long id) {
         Post post = postService.findPost(userId, id);
         return new PostLinksResource(post);
     }
 
-    @PostMapping(value = "/users/{userId}/posts")
+    @PostMapping(value = "v1/users/{userId}/posts")
     public void addPost(@PathVariable String userId, @RequestBody Post post) {
         post.setUser(userService.getUser(userId));
 
         postService.addPost(post);
     }
 
-    @PutMapping(value = "/users/{userId}/posts/{id}")
+    @PutMapping(value = "v1/users/{userId}/posts/{id}")
     public void updatePost(@PathVariable String userId, @PathVariable Long id, @RequestBody Post post) {
         postService.updatePost(userId, id, post);
     }
 
-    @DeleteMapping(value = "/users/{userId}/posts/{id}")
+    @DeleteMapping(value = "v1/users/{userId}/posts/{id}")
     public void deletePost(@PathVariable String userId, @PathVariable Long id) {
         postService.deletePost(userId, id);
     }
 
-    @DeleteMapping(value = "/users/{userId}/posts")
+    @DeleteMapping(value = "v1/users/{userId}/posts")
     public void deleteAllPosts(@PathVariable String userId) {
         postService.deleteAllPostsByUserName(userId);
     }

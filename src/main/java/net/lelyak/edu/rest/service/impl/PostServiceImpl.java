@@ -45,10 +45,13 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post findPost(String userName, Long id) {
         validateDbPresence(userName);
-
+        // TODO: 1/24/18 change validation to Authorisation object => take the user and validate
 //        Post result = postRepository.findOne(id);
 //        validateRestUrlParameters(userName, result);
 //        return result;
+        //REST users/nnnnnnnnnn/posts
+
+        //UI   /posts/new
 
         return postRepository.findOne(id);
     }

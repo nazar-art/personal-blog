@@ -6,6 +6,7 @@ import net.lelyak.edu.utils.exception.DuplicateUserNameException;
 import net.lelyak.edu.utils.exception.NotPresentedInDbException;
 import org.springframework.hateoas.VndErrors;
 import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,13 +37,13 @@ public class UserControllerAdvice {
         return new VndErrors("error", ex.getMessage());
     }
 
-    /*@ExceptionHandler(Throwable.class)
+    @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String exception(final Throwable throwable, final Model model) {
         log.error("Exception during execution of SpringSecurity application", throwable);
         String errorMessage = (throwable != null ? throwable.getMessage() : "Unknown error");
         model.addAttribute("errorMessage", errorMessage);
-        return "error/500";
-    }*/
+        return "error/403";
+    }
 
 }

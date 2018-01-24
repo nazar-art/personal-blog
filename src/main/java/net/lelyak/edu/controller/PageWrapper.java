@@ -4,13 +4,16 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 @Getter @Setter
 public class PageWrapper<T> {
-    public static final int MAX_PAGE_ITEM_DISPLAY = 5;
+
+    @Value("${number.of.posts.per.page}")
+    private Integer postsNumber;
 
     private Page<T> page;
     private List<PageItem> items;
@@ -25,19 +28,19 @@ public class PageWrapper<T> {
         currentNumber = page.getNumber() + 1; //start from 1 to match page.page
 
         int start, size;
-        if (page.getTotalPages() <= MAX_PAGE_ITEM_DISPLAY) {
+        if (page.getTotalPages() <= postsNumber) {
             start = 1;
             size = page.getTotalPages();
         } else {
-            if (currentNumber <= MAX_PAGE_ITEM_DISPLAY - MAX_PAGE_ITEM_DISPLAY / 2) {
+            if (currentNumber <= postsNumber - postsNumber / 2) {
                 start = 1;
-                size = MAX_PAGE_ITEM_DISPLAY;
-            } else if (currentNumber >= page.getTotalPages() - MAX_PAGE_ITEM_DISPLAY / 2) {
-                start = page.getTotalPages() - MAX_PAGE_ITEM_DISPLAY + 1;
-                size = MAX_PAGE_ITEM_DISPLAY;
+                size = postsNumber;
+            } else if (currentNumber >= page.getTotalPages() - postsNumber / 2) {
+                start = page.getTotalPages() - postsNumber + 1;
+                size = postsNumber;
             } else {
-                start = currentNumber - MAX_PAGE_ITEM_DISPLAY / 2;
-                size = MAX_PAGE_ITEM_DISPLAY;
+                start = currentNumber - postsNumber / 2;
+                size = postsNumber;
             }
         }
 
@@ -46,15 +49,15 @@ public class PageWrapper<T> {
         }
     }
 
-    public int getNumber() {
+    /*public int getNumber() {
         return currentNumber;
-    }
+    }*/
 
     public List<T> getContent() {
         return page.getContent();
     }
 
-    public int getSize() {
+    /*public int getSize() {
         return page.getSize();
     }
 
@@ -80,7 +83,7 @@ public class PageWrapper<T> {
 
     public boolean isHasNextPage() {
         return page.hasNext();
-    }
+    }*/
 
     @Getter
     @AllArgsConstructor
