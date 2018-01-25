@@ -17,7 +17,7 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 
     List<Post> findByUser(BlogUser user);
 
-//    List<Post> findByUser_UserName(String userName);
+    List<Post> findByUser_UserName(String userName);
 
     Page<Post> findByUser_UserName(String userId, Pageable pageable);
 
