@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Post;
-import net.lelyak.edu.rest.service.impl.CommentServiceImpl;
-import net.lelyak.edu.rest.service.impl.PostServiceImpl;
-import net.lelyak.edu.rest.service.impl.UserServiceImpl;
+import net.lelyak.edu.rest.service.CommentService;
+import net.lelyak.edu.rest.service.PostService;
+import net.lelyak.edu.rest.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -16,16 +16,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @AllArgsConstructor
 @Slf4j
 public class PostController {
 
-    private final PostServiceImpl postServiceImpl;
-    private final UserServiceImpl userServiceImpl;
-    private final CommentServiceImpl commentServiceImpl;
+    private final PostService postService;
+    private final UserService userService;
+    private final CommentService commentService;
 
     /**
      * List all user posts.
@@ -33,7 +32,7 @@ public class PostController {
     @GetMapping("/posts")
     public String userHomePage(Model model, Pageable pageable) {
 
-        Page<Post> postsPage = postServiceImpl.listAllPostsByPage(pageable);
+        Page<Post> postsPage = postService.listAllPostsByPage(pageable);
         PageWrapper<Post> page = new PageWrapper<>(postsPage, "/posts");
 
         model.addAttribute("posts", page.getContent());
@@ -48,8 +47,8 @@ public class PostController {
      */
     @GetMapping("post/{postId}")
     public String viewPost(@PathVariable("postId") Long id, Model model) {
-        model.addAttribute("post", postServiceImpl.findPost(id));
-        model.addAttribute("comments", commentServiceImpl.findAllCommentsByPostId(id));
+        model.addAttribute("post", postService.findPost(id));
+        model.addAttribute("comments", commentService.findAllCommentsByPostId(id));
         return "post/viewPost";
     }
 
@@ -68,10 +67,10 @@ public class PostController {
     @PostMapping(value = "post")
     public String savePost(Post post) {
         String currentUserName = getCurrentUserName();
-        BlogUser currentUser = userServiceImpl.getUser(currentUserName);
+        BlogUser currentUser = userService.getUser(currentUserName);
 
         post.setUser(currentUser);
-        postServiceImpl.addPost(post);
+        postService.addPost(post);
         return "redirect:post/" + post.getId();
     }
 
@@ -80,7 +79,7 @@ public class PostController {
      */
     @GetMapping("/post/edit/{postId}")
     public String editPost(@PathVariable("postId") Long id, Model model) {
-        Post postToEdit = postServiceImpl.findPost(id);
+        Post postToEdit = postService.findPost(id);
         model.addAttribute("post", postToEdit);
         return "post/addPost";
     }
@@ -90,7 +89,7 @@ public class PostController {
      */
     @GetMapping("post/delete/{postId}")
     public String deletePost(@PathVariable("postId") Long id) {
-        postServiceImpl.deletePost(id);
+        postService.deletePost(id);
         return "redirect:posts";
     }
 
