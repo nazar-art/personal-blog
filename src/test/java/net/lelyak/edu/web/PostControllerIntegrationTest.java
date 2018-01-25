@@ -1,7 +1,8 @@
-package net.lelyak.edu.controller;
+package net.lelyak.edu.web;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.google.common.collect.Lists;
+import net.lelyak.edu.controller.PostController;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Post;
 import net.lelyak.edu.rest.service.impl.CommentServiceImpl;
