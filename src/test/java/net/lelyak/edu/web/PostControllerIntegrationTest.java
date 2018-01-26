@@ -1,12 +1,14 @@
 package net.lelyak.edu.web;
 
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.google.common.collect.Lists;
 import net.lelyak.edu.controller.PostController;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Post;
 import net.lelyak.edu.rest.service.impl.CommentServiceImpl;
 import net.lelyak.edu.rest.service.impl.PostServiceImpl;
+import net.lelyak.edu.rest.service.impl.UserDetailsServiceImpl;
 import net.lelyak.edu.rest.service.impl.UserServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +30,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -83,7 +86,7 @@ public class PostControllerIntegrationTest {
 
     @Test
     public void requestIsSuccessfullyProcessedWithAvailablePosts() throws Exception {
-        this.mockMvc.perform(get("/posts")
+        this.mockMvc.perform(get("/posts").with(user("user"))
                 .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
@@ -93,4 +96,9 @@ public class PostControllerIntegrationTest {
                 );
     }
 
+    @Test
+    public void postsPageContentIsRenderedAsHtmlWithListOfPosts() throws Exception {
+        HtmlPage page = webClient.getPage("http://posts.com/posts");
+//        page.getElementById()
+    }
 }
