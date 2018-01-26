@@ -58,7 +58,7 @@ public class PostController {
     @GetMapping("/post/new")
     public String createPost(Model model) {
         model.addAttribute("post", Post.builder().build());
-        return "post/addPost";
+        return "post/createPost";
     }
 
     /**
@@ -70,7 +70,7 @@ public class PostController {
         BlogUser currentUser = userService.getUser(currentUserName);
 
         post.setUser(currentUser);
-        postService.addPost(post);
+        postService.createPost(post);
         return "redirect:post/" + post.getId();
     }
 
@@ -81,7 +81,7 @@ public class PostController {
     public String editPost(@PathVariable("postId") Long id, Model model) {
         Post postToEdit = postService.findPost(id);
         model.addAttribute("post", postToEdit);
-        return "post/addPost";
+        return "post/createPost";
     }
 
     /**

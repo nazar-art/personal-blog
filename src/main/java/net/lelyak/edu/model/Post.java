@@ -23,7 +23,7 @@ public class Post {
 
     private String postText;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private BlogUser user;
 
     private LocalDateTime createdDate;

@@ -34,7 +34,7 @@ public class PostResource {
     public void addPost(@PathVariable String userId, @RequestBody Post post) {
         post.setUser(userService.getUser(userId));
 
-        postService.addPost(post);
+        postService.createPost(post);
     }
 
     @PutMapping(value = "/users/{userId}/posts/{id}")

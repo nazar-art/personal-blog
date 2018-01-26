@@ -17,7 +17,7 @@ public interface PostService {
 
     Post findPost(Long id);
 
-    void addPost(Post post);
+    void createPost(Post post);
 
     void updatePost(Long id, Post post);
 

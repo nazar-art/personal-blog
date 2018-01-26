@@ -3,6 +3,7 @@ package net.lelyak.edu.rest.service.impl;
 
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Role;
 import net.lelyak.edu.rest.repository.UserRepository;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
     private UserRepository userRepository;
 
@@ -30,7 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return buildUserForAuthentication(user);
     }
 
-    private org.springframework.security.core.userdetails.User buildUserForAuthentication(BlogUser user) {
+    public org.springframework.security.core.userdetails.User buildUserForAuthentication(BlogUser user) {
 
         SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getRole().name());
         List<GrantedAuthority> authorities = Lists.newArrayList(grantedAuthority);

@@ -62,9 +62,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void addPost(Post post) {
+    public void createPost(Post post) {
+        log.debug("CREATE_POST: {}", post);
+
         post.setCreatedDate(LocalDateTime.now());
         postRepository.save(post);
+
+        log.debug("CREATED_NEW_POST: {}", post);
     }
 
     @Override

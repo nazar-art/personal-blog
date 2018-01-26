@@ -1,6 +1,7 @@
 package net.lelyak.edu.rest.service.impl;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Role;
 import net.lelyak.edu.rest.repository.UserRepository;
@@ -18,6 +19,7 @@ import java.util.List;
 /**
  * @author Nazar Lelyak.
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -40,6 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(BlogUser user) {
+        log.debug("Create new user is called: {}", user);
         Assert.notNull(user, "User is null");
         validateUserName(user.getUserName());
         validateUserEmail(user.getEmail());
@@ -49,6 +52,7 @@ public class UserServiceImpl implements UserService {
         user.setEnabled(Boolean.TRUE);
 
         userRepository.save(user);
+        log.debug("Created new user: {}", user);
     }
 
     @Override
@@ -58,6 +62,13 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
+    public void deleteUser(String userId) {
+        validateUserDBPresence(userId);
+
+        userRepository.delete(userId);
+        log.debug("DELETE_USER: {}", userId);
+    }
 
     private void validateUserName(String userName) {
         userRepository.findByUserName(userName)
