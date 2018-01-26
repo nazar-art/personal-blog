@@ -56,10 +56,6 @@ public class PostControllerIntegrationTest {
     private MockMvc mockMvc;
 
     private WebClient webClient;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PostRepository postRepository;
 
     @MockBean
     private PostServiceImpl postService;
@@ -90,12 +86,10 @@ public class PostControllerIntegrationTest {
 
     @Before
     public void setUp() throws Exception {
-        userRepository.save(magelan);
-        postRepository.save(posts);
-        //
+        userService.createUser(magelan);
+        posts.forEach(p -> postService.createPost(p));
 
 //        Mockito.when(postService.listAllPostsByPage(new PageRequest(1, 5))).thenReturn(pagePosts);
-
         webClient = MockMvcWebClientBuilder.mockMvcSetup(mockMvc)
                 .useMockMvcForHosts("posts.com", "myblog.org")
                 .build();
@@ -106,8 +100,8 @@ public class PostControllerIntegrationTest {
 
     @After()
     public void tearDown() throws Exception {
-        postRepository.deleteAll();
-        userRepository.delete(magelan.getUserName());
+        userService.deleteUser(magelan.getUserName());
+        postService.deleteAllPostsByUserName(magelan.getUserName());
     }
 
 
