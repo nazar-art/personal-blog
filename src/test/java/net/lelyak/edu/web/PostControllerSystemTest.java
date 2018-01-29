@@ -27,6 +27,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -77,8 +78,6 @@ public class PostControllerSystemTest {
         userService.createUser(magelan);
         posts.forEach(p -> postService.createPost(p));
 
-//        Authentication auth = new UsernamePasswordAuthenticationToken(magelan,null);
-//        SecurityContextHolder.getContext().setAuthentication(auth);
         log.info("Init ENDED !!!!");
     }
 
@@ -94,7 +93,7 @@ public class PostControllerSystemTest {
 
     @Test
     public void allPostsFromDatabaseAreAvailable() throws Exception {
-        this.mockMvc.perform(get("/posts")
+        this.mockMvc.perform(get("/posts").with(httpBasic(magelan.getUserName(), magelan.getPassword()))
                 .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))

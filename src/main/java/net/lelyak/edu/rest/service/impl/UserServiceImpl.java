@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    @Override
+    @Override // todo add transactional method for deleting all posts + comments
     public void deleteUser(String userId) {
         validateUserDBPresence(userId);
 
