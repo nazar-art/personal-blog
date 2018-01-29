@@ -62,13 +62,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void createPost(Post post) {
+    public Post createPost(Post post) {
         log.debug("CREATE_POST: {}", post);
 
         post.setCreatedDate(LocalDateTime.now());
-        postRepository.save(post);
 
+        Post createdPost = postRepository.save(post);
         log.debug("CREATED_NEW_POST: {}", post);
+
+        return createdPost;
     }
 
     @Override
@@ -89,10 +91,13 @@ public class PostServiceImpl implements PostService {
         validatePostRelevance(userName, findPost(id));
 
         postRepository.delete(id);
+
+        log.info("Delete post, with id: {} for user: {}", id, userName);
     }
 
     @Override
     public void deleteAllPostsByUserName(String userName) {
+        log.info("Delete all posts by user_name: {}", userName);
         findAllPostsByUserName(userName)
                 .forEach(post -> deletePost(post.getId()));
     }

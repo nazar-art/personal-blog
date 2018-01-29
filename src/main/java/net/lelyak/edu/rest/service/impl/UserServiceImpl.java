@@ -41,9 +41,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(BlogUser user) {
+    public BlogUser createUser(BlogUser user) {
         log.debug("Create new user is called: {}", user);
         Assert.notNull(user, "User is null");
+
         validateUserName(user.getUserName());
         validateUserEmail(user.getEmail());
 
@@ -51,8 +52,9 @@ public class UserServiceImpl implements UserService {
         user.setRole(Role.USER);
         user.setEnabled(Boolean.TRUE);
 
-        userRepository.save(user);
+        BlogUser createdUser = userRepository.save(user);
         log.debug("Created new user: {}", user);
+        return createdUser;
     }
 
     @Override
@@ -69,6 +71,7 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(userId);
         log.debug("DELETE_USER: {}", userId);
     }
+
 
     private void validateUserName(String userName) {
         userRepository.findByUserName(userName)

@@ -1,6 +1,7 @@
 package net.lelyak.edu.web;
 
 import com.google.common.collect.Lists;
+import lombok.extern.slf4j.Slf4j;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Post;
 import net.lelyak.edu.model.Role;
@@ -33,9 +34,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author Nazar Lelyak.
  */
+@Slf4j
+@ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@ActiveProfiles("test")
 public class PostControllerSystemTest {
 
     @Autowired
@@ -69,19 +71,25 @@ public class PostControllerSystemTest {
 
     @Before
     public void init() {
+        log.info("Init started !!!!");
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 
-        Authentication auth = new UsernamePasswordAuthenticationToken(magelan,null);
-        SecurityContextHolder.getContext().setAuthentication(auth);
-
-//        userService.createUser(magelan);
+        userService.createUser(magelan);
         posts.forEach(p -> postService.createPost(p));
+
+//        Authentication auth = new UsernamePasswordAuthenticationToken(magelan,null);
+//        SecurityContextHolder.getContext().setAuthentication(auth);
+        log.info("Init ENDED !!!!");
     }
 
     @After
     public void tearDown() throws Exception {
+        log.info("tearDown() started");
+
         postService.deleteAllPostsByUserName(magelan.getUserName());
         userService.deleteUser(magelan.getUserName());
+
+        log.info("tearDown() ended");
     }
 
     @Test

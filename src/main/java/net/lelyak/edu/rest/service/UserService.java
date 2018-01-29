@@ -12,7 +12,7 @@ public interface UserService {
 
     BlogUser getUser(String userName);
 
-    void createUser(BlogUser user);
+    BlogUser createUser(BlogUser user);
 
     void updateUser(String userName, BlogUser user);
 
