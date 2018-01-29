@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Post;
-import net.lelyak.edu.model.Role;
 import net.lelyak.edu.rest.service.PostService;
 import net.lelyak.edu.rest.service.UserService;
 import org.junit.After;
@@ -14,9 +13,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,8 +25,8 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @author Nazar Lelyak.
@@ -56,8 +52,6 @@ public class PostControllerSystemTest {
             .userName("magelan")
             .password("magelan")
             .email("magelan@gmail.com")
-            .role(Role.USER)
-            .enabled(true)
             .build();
 
     private List<Post> posts = Lists.newArrayList(
@@ -85,7 +79,6 @@ public class PostControllerSystemTest {
     public void tearDown() throws Exception {
         log.info("tearDown() started");
 
-        postService.deleteAllPostsByUserName(magelan.getUserName());
         userService.deleteUser(magelan.getUserName());
 
         log.info("tearDown() ended");
@@ -93,7 +86,14 @@ public class PostControllerSystemTest {
 
     @Test
     public void allPostsFromDatabaseAreAvailable() throws Exception {
-        this.mockMvc.perform(get("/posts").with(httpBasic(magelan.getUserName(), magelan.getPassword()))
+//        this.mockMvc.perform(get("/posts")
+//                .header(HttpHeaders.AUTHORIZATION, "Basic " +
+//                        Base64Utils.encodeToString(String.join(":", magelan.getUserName(), magelan.getPassword()).getBytes()))
+        //
+//        this.mockMvc.perform(formLogin("/login").user("username", magelan.getUserName()).password("password", magelan.getPassword())
+//                .acceptMediaType(MediaType.parseMediaType("text/html;charset=UTF-8")))
+
+        this.mockMvc.perform(get("/posts").with(httpBasic("magelan", "magelan"))
                 .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))

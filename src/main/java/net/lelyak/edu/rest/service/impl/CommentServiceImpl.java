@@ -6,6 +6,7 @@ import net.lelyak.edu.model.Comment;
 import net.lelyak.edu.rest.repository.CommentRepository;
 import net.lelyak.edu.rest.service.CommentService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * @author Nazar Lelyak.
  */
 @Service
+@Transactional
 @AllArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
