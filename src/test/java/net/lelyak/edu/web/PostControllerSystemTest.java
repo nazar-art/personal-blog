@@ -80,6 +80,7 @@ public class PostControllerSystemTest {
 
     @After
     public void tearDown() throws Exception {
+        postService.deleteAllPostsByUserName(magelan.getUserName());
         userService.deleteUser(magelan.getUserName());
     }
 

@@ -7,24 +7,18 @@ import com.google.common.collect.Lists;
 import net.lelyak.edu.controller.PostController;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Post;
-import net.lelyak.edu.rest.repository.PostRepository;
-import net.lelyak.edu.rest.repository.UserRepository;
 import net.lelyak.edu.rest.service.impl.CommentServiceImpl;
 import net.lelyak.edu.rest.service.impl.PostServiceImpl;
-import net.lelyak.edu.rest.service.impl.UserDetailsServiceImpl;
 import net.lelyak.edu.rest.service.impl.UserServiceImpl;
-import net.lelyak.edu.util.WithMockCustomUser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -100,8 +94,8 @@ public class PostControllerIntegrationTest {
 
     @After()
     public void tearDown() throws Exception {
-        userService.deleteUser(magelan.getUserName());
         postService.deleteAllPostsByUserName(magelan.getUserName());
+        userService.deleteUser(magelan.getUserName());
     }
 
 
