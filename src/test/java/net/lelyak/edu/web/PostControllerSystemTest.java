@@ -93,7 +93,7 @@ public class PostControllerSystemTest {
 //        this.mockMvc.perform(formLogin("/login").user("username", magelan.getUserName()).password("password", magelan.getPassword())
 //                .acceptMediaType(MediaType.parseMediaType("text/html;charset=UTF-8")))
 
-        this.mockMvc.perform(get("/posts").with(httpBasic("magelan", "magelan"))
+        this.mockMvc.perform(get("/posts").with(httpBasic(magelan.getUserName(), magelan.getPassword()))
                 .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))

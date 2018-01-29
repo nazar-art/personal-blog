@@ -23,9 +23,9 @@ import java.util.Optional;
 /**
  * @author Nazar Lelyak.
  */
+@Slf4j
 @Service
 @AllArgsConstructor
-@Slf4j
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
