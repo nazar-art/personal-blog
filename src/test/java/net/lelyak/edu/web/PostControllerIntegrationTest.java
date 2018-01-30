@@ -8,18 +8,23 @@ import lombok.extern.slf4j.Slf4j;
 import net.lelyak.edu.controller.PostController;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Post;
+import net.lelyak.edu.rest.repository.PostRepository;
+import net.lelyak.edu.rest.repository.UserRepository;
 import net.lelyak.edu.rest.service.impl.CommentServiceImpl;
 import net.lelyak.edu.rest.service.impl.PostServiceImpl;
 import net.lelyak.edu.rest.service.impl.UserServiceImpl;
+import net.lelyak.edu.utils.generator.TestDataGenerator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -62,22 +67,15 @@ public class PostControllerIntegrationTest {
     @MockBean
     private CommentServiceImpl commentService;
 
+    @MockBean
+    private UserRepository userRepository;
+    @MockBean
+    private PostRepository postRepository;
 
-    private BlogUser magelan = BlogUser.builder()
-            .userName("magelan")
-            .password("magelan")
-            .email("magelan@gmail.com")
-            .build();
 
-    private List<Post> posts = Lists.newArrayList(
-            Post.builder()
-                    .postText("First post")
-                    .user(magelan)
-                    .build(),
-            Post.builder()
-                    .postText("Second post")
-                    .user(magelan)
-                    .build());
+
+    private BlogUser magelan = TestDataGenerator.buildMagelanUser();
+    private List<Post> posts = TestDataGenerator.buildPostsList(magelan, "First post", "Second post");
 
     @SuppressWarnings("unchecked")
     private Page<Post> pagePosts = new PageImpl(posts);
@@ -91,15 +89,15 @@ public class PostControllerIntegrationTest {
                 .useMockMvcForHosts("posts.com", "myblog.org")
                 .build();
 
-        userService.createUser(magelan);
-        posts.forEach(p -> postService.createPost(p));
+        userRepository.save(magelan);
+        postRepository.save(posts);
 
         log.debug("setUp() finished");
     }
 
     @After()
     public void tearDown() throws Exception {
-        postService.deleteAllPostsByUserName(magelan.getUserName());
+        log.debug("tearDown() started");
         userService.deleteUser(magelan.getUserName());
     }
 

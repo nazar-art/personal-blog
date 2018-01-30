@@ -7,6 +7,7 @@ import net.lelyak.edu.model.Post;
 import net.lelyak.edu.rest.service.CommentService;
 import net.lelyak.edu.rest.service.PostService;
 import net.lelyak.edu.rest.service.UserService;
+import net.lelyak.edu.utils.generator.TestDataGenerator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -58,7 +59,7 @@ public class PostController {
     @GetMapping("/post/new")
     public String createPost(Model model) {
         model.addAttribute("post", Post.builder().build());
-        return "post/createPost";
+        return "post/addPost";
     }
 
     /**
@@ -81,7 +82,7 @@ public class PostController {
     public String editPost(@PathVariable("postId") Long id, Model model) {
         Post postToEdit = postService.findPost(id);
         model.addAttribute("post", postToEdit);
-        return "post/createPost";
+        return "post/addPost";
     }
 
     /**
@@ -97,8 +98,14 @@ public class PostController {
 
 
     private String getCurrentUserName() {
+        String userName;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
+
+        if (authentication == null) {
+            userName = TestDataGenerator.buildMagelanUser().getUserName();
+        } else {
+            userName = authentication.getName();
+        }
 
         log.debug("Defining current user name: {}", userName);
         return userName;

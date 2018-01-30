@@ -37,6 +37,7 @@ public class PostServiceImpl implements PostService {
         List<Post> result = Lists.newArrayList();
         Optional<BlogUser> user = userRepository.findByUserName(userName);
         result.addAll(postRepository.findByUser(user.get()));
+        log.debug("ALL_POSTS: {} BY USER_NAME: {}", result, userName);
         return result;
     }
 

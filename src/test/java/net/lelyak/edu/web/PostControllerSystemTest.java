@@ -79,7 +79,32 @@ public class PostControllerSystemTest {
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
                 .andExpect(content().string(allOf(
                         containsString("First post"),
-                        containsString("Second post")
+                        containsString("Second post"),
+                        containsString("View"),
+                        containsString("Edit"),
+                        containsString("Delete")
                 )));
+    }
+
+    @Test
+    public void viewSeparatePostPagePerEachDbPostIsAvailable() throws Exception {
+        List<Post> postsByUserName = postService.findAllPostsByUserName(magelan.getUserName());
+
+        postsByUserName.forEach(post -> {
+            log.info("POST_DETAILS: {} FOR USER: {}", post, magelan);
+
+            try {
+                this.mockMvc.perform(get("/post/" + post.getId())
+                        .with(httpBasic(magelan.getUserName(), magelan.getPassword()))
+                        .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
+                        .andExpect(status().isOk())
+                        .andExpect(content().contentType("text/html;charset=UTF-8"))
+                        .andExpect(content().string(allOf(
+                                containsString(post.getPostText())
+                        )));
+            } catch (Exception e) {
+                log.error("Exception happen during viewing the post page: {}", e.getCause());
+            }
+        });
     }
 }
