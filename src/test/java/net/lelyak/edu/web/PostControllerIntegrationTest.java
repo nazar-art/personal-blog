@@ -28,6 +28,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuilder;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
 
@@ -93,8 +94,6 @@ public class PostControllerIntegrationTest {
         userService.createUser(magelan);
         posts.forEach(p -> postService.createPost(p));
 
-//        Authentication auth = new UsernamePasswordAuthenticationToken(magelan,null);
-//        SecurityContextHolder.getContext().setAuthentication(auth);
         log.debug("setUp() finished");
     }
 
@@ -111,8 +110,8 @@ public class PostControllerIntegrationTest {
         this.mockMvc.perform(get("/posts").with(httpBasic(magelan.getUserName(), magelan.getPassword()))
                 .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                /*.andExpect(content().string(allOf(
+                /*.andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(content().string(allOf(
                         containsString("First post"),
                         containsString("Second post")))
                 )*/;

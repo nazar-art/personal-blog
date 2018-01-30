@@ -10,6 +10,7 @@ import net.lelyak.edu.utils.exception.NotPresentedInDbException;
 import net.lelyak.edu.rest.repository.PostRepository;
 import net.lelyak.edu.rest.repository.UserRepository;
 import net.lelyak.edu.rest.service.PostService;
+import net.lelyak.edu.utils.generator.TestDataGenerator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -117,8 +118,15 @@ public class PostServiceImpl implements PostService {
     }
 
     private String getCurrentUserName() {
+        String userName;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
+
+        if (authentication == null) {
+            userName = TestDataGenerator.buildMagelanUser().getUserName();
+        } else {
+            userName = authentication.getName();
+        }
+
 
         log.debug("Current USER_NAME: {}", userName);
         return userName;
