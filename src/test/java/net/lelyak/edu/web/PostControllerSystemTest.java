@@ -23,9 +23,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.CoreMatchers.anyOf;
-import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.not;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -120,17 +119,18 @@ public class PostControllerSystemTest {
 
     @Test
     public void postsPaginationControlsNumberOfPostsPerPageAndCanShowOnlyOnePost() throws Exception {
-        this.mockMvc.perform(get("/posts?page=0&size=1" +
-                "").with(httpBasic(magelan.getUserName(), magelan.getPassword()))
+        this.mockMvc.perform(get("/posts?page=0&size=1")
+                .with(httpBasic(magelan.getUserName(), magelan.getPassword()))
                 .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
                 .andExpect(content().string(allOf(
                         containsString("First post")
                 )))
-                .andExpect(content().string(anyOf(
-                        containsString("Second post")
+                .andExpect(content().string(allOf(
+                        not(containsString("Second post"))
                 )));
+
     }
 
     @Test
@@ -140,9 +140,9 @@ public class PostControllerSystemTest {
                 .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(content().string(anyOf(
-                        containsString("First post"),
-                        containsString("Second post")
+                .andExpect(content().string(allOf(
+                        not(containsString("First post")),
+                        not(containsString("Second post"))
                 )));
     }
 
