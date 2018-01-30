@@ -32,9 +32,9 @@
                     <td th:text="${iterationStatus.count + (page.size * (page.number-1))}">No.</td>
                     <td th:text="${post.postText}"></td>
                     <td th:text="${post.createdDate}"></td>
-                    <td><a th:href="${ '/post/' + post.id}" class="btn btn-success btn-xs">View</a></td>
-                    <td><a th:href="${'/post/edit/' + post.id}" class="btn btn-warning btn-xs">Edit</a></td>
-                    <td><a th:href="${'/post/delete/' + post.id}" class="btn btn-danger btn-xs">Delete</a></td>
+                    <td><a th:href="${ '/post/'+post.id}" class="btn btn-success btn-xs">View</a></td>
+                    <td><a th:href="${'/post/edit/'+post.id}" class="btn btn-warning btn-xs">Edit</a></td>
+                    <td><a th:href="${'/post/delete/'+post.id}" class="btn btn-danger btn-xs">Delete</a></td>
                 </tr>
                 <!--<tr th:each="post : ${posts}">-->
                     <!--<td th:text="${post.postText}"></td>-->

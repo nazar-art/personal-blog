@@ -10,6 +10,7 @@ import net.lelyak.edu.utils.exception.NotPresentedInDbException;
 import net.lelyak.edu.rest.repository.PostRepository;
 import net.lelyak.edu.rest.repository.UserRepository;
 import net.lelyak.edu.rest.service.PostService;
+import net.lelyak.edu.utils.generator.TestDataGenerator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -23,9 +24,9 @@ import java.util.Optional;
 /**
  * @author Nazar Lelyak.
  */
+@Slf4j
 @Service
 @AllArgsConstructor
-@Slf4j
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
@@ -36,6 +37,7 @@ public class PostServiceImpl implements PostService {
         List<Post> result = Lists.newArrayList();
         Optional<BlogUser> user = userRepository.findByUserName(userName);
         result.addAll(postRepository.findByUser(user.get()));
+        log.debug("ALL_POSTS: {} BY USER_NAME: {}", result, userName);
         return result;
     }
 
@@ -58,13 +60,20 @@ public class PostServiceImpl implements PostService {
         Post result = postRepository.findOne(id);
         validatePostRelevance(userName, result);
 
+        log.debug("FIND_POST: {} BY ID: {}", result, id);
         return result;
     }
 
     @Override
-    public void addPost(Post post) {
+    public Post createPost(Post post) {
+        log.debug("CREATE_POST: {}", post);
+
         post.setCreatedDate(LocalDateTime.now());
-        postRepository.save(post);
+
+        Post createdPost = postRepository.save(post);
+        log.debug("CREATED_NEW_POST: {}", post);
+
+        return createdPost;
     }
 
     @Override
@@ -85,17 +94,27 @@ public class PostServiceImpl implements PostService {
         validatePostRelevance(userName, findPost(id));
 
         postRepository.delete(id);
+
+        log.info("Delete post, with id: {} for user: {}", id, userName);
     }
 
     @Override
     public void deleteAllPostsByUserName(String userName) {
+        log.info("Delete all posts by user_name: {}", userName);
         findAllPostsByUserName(userName)
                 .forEach(post -> deletePost(post.getId()));
     }
 
 
-    private void validatePostRelevance(String userName, Post result) {
-        boolean postBelongsToUser = result.getUser().getUserName().equals(userName);
+    private void validatePostRelevance(String userName, Post post) {
+        boolean postBelongsToUser;
+
+        try {
+            postBelongsToUser = post.getUser().getUserName().equals(userName);
+        } catch (Exception e) {
+            postBelongsToUser = false;
+        }
+
         if (!postBelongsToUser) {
             throw new BadRequestException(userName);
         }
@@ -108,8 +127,15 @@ public class PostServiceImpl implements PostService {
     }
 
     private String getCurrentUserName() {
+        String userName;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
+
+        if (authentication == null) {
+            userName = TestDataGenerator.buildMagelanUser().getUserName();
+        } else {
+            userName = authentication.getName();
+        }
+
 
         log.debug("Current USER_NAME: {}", userName);
         return userName;

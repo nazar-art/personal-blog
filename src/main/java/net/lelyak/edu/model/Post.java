@@ -23,6 +23,7 @@ public class Post {
 
     private String postText;
 
+//    @ManyToOne(cascade = CascadeType.ALL)
     @ManyToOne
     private BlogUser user;
 

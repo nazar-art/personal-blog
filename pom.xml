@@ -74,6 +74,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>net.sourceforge.htmlunit</groupId>
+            <artifactId>htmlunit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!--UTILS-->
         <dependency>
             <groupId>org.projectlombok</groupId>
