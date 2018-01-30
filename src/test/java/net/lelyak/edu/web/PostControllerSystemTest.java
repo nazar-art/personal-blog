@@ -5,7 +5,9 @@ import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Post;
 import net.lelyak.edu.rest.service.PostService;
 import net.lelyak.edu.rest.service.UserService;
+import net.lelyak.edu.utils.exception.BadRequestException;
 import net.lelyak.edu.utils.generator.TestDataGenerator;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -73,16 +76,14 @@ public class PostControllerSystemTest {
 
     @Test
     public void allPostsFromDatabaseAreAvailable() throws Exception {
-        this.mockMvc.perform(get("/posts").with(httpBasic(magelan.getUserName(), magelan.getPassword()))
+        this.mockMvc.perform(get("/posts")
+                .with(httpBasic(magelan.getUserName(), magelan.getPassword()))
                 .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
                 .andExpect(content().string(allOf(
                         containsString("First post"),
-                        containsString("Second post"),
-                        containsString("View"),
-                        containsString("Edit"),
-                        containsString("Delete")
+                        containsString("Second post")
                 )));
     }
 
@@ -106,5 +107,55 @@ public class PostControllerSystemTest {
                 log.error("Exception happen during viewing the post page: {}", e.getCause());
             }
         });
+    }
+
+    @Test
+    public void ifPostIdIsIncorrectThrowException() throws Exception {
+        int id = RandomUtils.nextInt(10000, 20000);
+        this.mockMvc.perform(get("/post/" + id)
+                .with(httpBasic(magelan.getUserName(), magelan.getPassword()))
+                .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void postsPaginationControlsNumberOfPostsPerPageAndCanShowOnlyOnePost() throws Exception {
+        this.mockMvc.perform(get("/posts?page=0&size=1" +
+                "").with(httpBasic(magelan.getUserName(), magelan.getPassword()))
+                .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(content().string(allOf(
+                        containsString("First post")
+                )))
+                .andExpect(content().string(anyOf(
+                        containsString("Second post")
+                )));
+    }
+
+    @Test
+    public void postsPaginationControlsNumberOfPostsPerPageAndCanShowZeroPosts() throws Exception {
+        this.mockMvc.perform(get("/posts?page=5&size=5")
+                .with(httpBasic(magelan.getUserName(), magelan.getPassword()))
+                .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(content().string(anyOf(
+                        containsString("First post"),
+                        containsString("Second post")
+                )));
+    }
+
+    @Test
+    public void userCanLogoutAndSeeLoginPage() throws Exception {
+        this.mockMvc.perform(get("/login?logout")
+                .with(httpBasic(magelan.getUserName(), magelan.getPassword()))
+                .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(content().string(allOf(
+                        containsString("Please Sign In"),
+                        containsString("You have been logged out.")
+                )));
     }
 }

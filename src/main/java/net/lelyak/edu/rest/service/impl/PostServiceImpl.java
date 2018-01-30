@@ -60,6 +60,7 @@ public class PostServiceImpl implements PostService {
         Post result = postRepository.findOne(id);
         validatePostRelevance(userName, result);
 
+        log.debug("FIND_POST: {} BY ID: {}", result, id);
         return result;
     }
 
@@ -105,8 +106,15 @@ public class PostServiceImpl implements PostService {
     }
 
 
-    private void validatePostRelevance(String userName, Post result) {
-        boolean postBelongsToUser = result.getUser().getUserName().equals(userName);
+    private void validatePostRelevance(String userName, Post post) {
+        boolean postBelongsToUser;
+
+        try {
+            postBelongsToUser = post.getUser().getUserName().equals(userName);
+        } catch (Exception e) {
+            postBelongsToUser = false;
+        }
+
         if (!postBelongsToUser) {
             throw new BadRequestException(userName);
         }
