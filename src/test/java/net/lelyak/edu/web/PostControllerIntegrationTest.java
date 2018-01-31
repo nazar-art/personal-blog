@@ -2,10 +2,10 @@ package net.lelyak.edu.web;
 
 import lombok.extern.slf4j.Slf4j;
 import net.lelyak.edu.model.BlogUser;
+import net.lelyak.edu.model.Comment;
 import net.lelyak.edu.model.Post;
 import net.lelyak.edu.rest.service.PostService;
 import net.lelyak.edu.rest.service.UserService;
-import net.lelyak.edu.utils.exception.BadRequestException;
 import net.lelyak.edu.utils.generator.TestDataGenerator;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.After;
@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class PostControllerSystemTest {
+public class PostControllerIntegrationTest {
 
     @Autowired
     private WebApplicationContext context;
@@ -109,7 +109,7 @@ public class PostControllerSystemTest {
     }
 
     @Test
-    public void ifPostIdIsIncorrectThrowException() throws Exception {
+    public void ifPostIdIsIncorrectThrowExceptionForViewPostDetailsPage() throws Exception {
         int id = RandomUtils.nextInt(10000, 20000);
         this.mockMvc.perform(get("/post/" + id)
                 .with(httpBasic(magelan.getUserName(), magelan.getPassword()))
