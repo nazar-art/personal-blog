@@ -40,7 +40,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(MockitoJUnitRunner.class)
 public class PostControllerTest {
 
-    public static final long POST_TEST_ID = 1L;
+    public static final long TEST_POST_ID = 1L;
+
     @Mock
     private PostService postService;
     @Mock
@@ -74,8 +75,8 @@ public class PostControllerTest {
 
         // mocks configuration
 //        when(postService.listAllPostsByPage(pageable)).thenReturn(pagePosts);
-//        when(postService.findPost(POST_TEST_ID)).thenReturn(firstPost);
-//        when(commentService.findAllCommentsByPostId(POST_TEST_ID)).thenReturn(comments);
+//        when(postService.findPost(TEST_POST_ID)).thenReturn(firstPost);
+//        when(commentService.findAllCommentsByPostId(TEST_POST_ID)).thenReturn(comments);
     }
 
     @Test
@@ -99,12 +100,12 @@ public class PostControllerTest {
 
     @Test
     public void allCommentsAreAddedToPostForPostView() throws Exception {
-        when(postService.findPost(POST_TEST_ID)).thenReturn(firstPost);
-        when(commentService.findAllCommentsByPostId(POST_TEST_ID)).thenReturn(comments);
+        when(postService.findPost(TEST_POST_ID)).thenReturn(firstPost);
+        when(commentService.findAllCommentsByPostId(TEST_POST_ID)).thenReturn(comments);
 
         ExtendedModelMap model = new ExtendedModelMap();
 
-        assertThat(postController.viewPost(POST_TEST_ID, model), equalTo("post/viewPost"));
+        assertThat(postController.viewPost(TEST_POST_ID, model), equalTo("post/viewPost"));
         assertThat(model.asMap(), hasEntry("post", firstPost));
         assertThat(model.asMap(), hasEntry("comments", comments));
     }
