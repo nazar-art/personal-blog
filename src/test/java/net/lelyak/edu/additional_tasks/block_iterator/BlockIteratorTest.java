@@ -1,4 +1,4 @@
-package net.lelyak.edu.block_iterator;
+package net.lelyak.edu.additional_tasks.block_iterator;
 
 import com.google.common.collect.Lists;
 import org.junit.Test;
@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Треба написати клас BlockIterator - реалізацію інтерфейсу Iterator.
@@ -63,7 +64,7 @@ class BlockIterator implements Iterator<List<String>> {
 
     @Override
     public boolean hasNext() {
-        return false;
+        return iterator.hasNext();
     }
 
     @Override
@@ -117,7 +118,14 @@ public class BlockIteratorTest {
 
         List<String> actualSecondNext = blockIterator.next();
         assertEquals(expectedSecondNext, actualSecondNext);
-
     }
 
+    @Test
+    public void testHasNext() throws Exception {
+        BlockIterator blockIterator = new BlockIterator(lines.iterator(), "test");
+
+        for (int i = 0; i < 20; i++) {
+            assertTrue(blockIterator.hasNext());
+        }
+    }
 }
