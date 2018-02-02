@@ -1,4 +1,4 @@
-package net.lelyak.edu.additional_tasks.concurrency.solution;
+package net.lelyak.edu.additional_tasks.concurrency.solution.writer;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
