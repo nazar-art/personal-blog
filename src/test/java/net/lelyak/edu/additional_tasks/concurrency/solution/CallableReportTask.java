@@ -16,11 +16,12 @@ public class CallableReportTask implements Callable<String> {
 
     public static final String REPORT_PREFIX = "report";
 
-    private AtomicInteger counter = new AtomicInteger(1);
+    private AtomicInteger counter;
     private Writer writer;
 
     public CallableReportTask(Writer writer) {
         this.writer = writer;
+        this.counter = new AtomicInteger(1);
     }
 
     @Override
