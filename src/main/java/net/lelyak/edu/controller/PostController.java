@@ -8,6 +8,7 @@ import net.lelyak.edu.rest.service.CommentService;
 import net.lelyak.edu.rest.service.PostService;
 import net.lelyak.edu.rest.service.UserService;
 import net.lelyak.edu.utils.generator.TestDataGenerator;
+import net.lelyak.edu.web.PageWrapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;

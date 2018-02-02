@@ -1,6 +1,5 @@
 package net.lelyak.edu.web;
 
-import net.lelyak.edu.controller.PageWrapper;
 import net.lelyak.edu.controller.PostController;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Comment;
@@ -28,11 +27,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.collection.IsMapContaining.hasEntry;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @author Nazar Lelyak.

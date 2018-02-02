@@ -1,4 +1,4 @@
-package net.lelyak.edu.controller;
+package net.lelyak.edu.web;
 
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
