@@ -23,12 +23,14 @@ public class FileWriter implements Writer {
     @Override
     public void write(SlowReportingApiClient.Report report) {
 
-        Path path = Paths.get(outputDir.concat("/").concat(report.getName()).concat(".txt"));
+        Path path = Paths.get(outputDir.concat("/")
+                .concat(report.getName())
+                .concat(".txt"));
 
         try (BufferedWriter writer = Files.newBufferedWriter(path, Charset.forName("UTF-8"))) {
             writer.write(report.getContent());
         } catch (IOException ex) {
-            log.error(ex.getMessage());
+            log.error("Error during writing to file: {}", ex.getMessage());
         }
 
         log.info("write report: {} to file: {}", report.getName(), path);
