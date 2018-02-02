@@ -21,14 +21,14 @@ public class Main {
         }
 
         String destination = args[0];
-        int threadsNumber = Integer.valueOf(args[1]);
+        int reportsNumber = Integer.valueOf(args[1]);
 
-        ExecutorService executor = Executors.newFixedThreadPool(threadsNumber);
+        ExecutorService executor = Executors.newFixedThreadPool(reportsNumber);
 
         FileWriter fileWriter = new FileWriter(destination);
         CallableReportTask reportTask = new CallableReportTask(fileWriter);
 
-        for (int i = 0; i < threadsNumber; i++) {
+        for (int i = 0; i < reportsNumber; i++) {
             executor.submit(reportTask);
         }
 
