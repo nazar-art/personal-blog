@@ -55,22 +55,15 @@ public class PostControllerIntegrationTest {
 
     @Before
     public void init() {
-        log.info("Init started !!!!");
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 
         userService.createUser(magelan);
         posts.forEach(p -> postService.createPost(p));
-
-        log.info("Init ENDED !!!!");
     }
 
     @After
     public void tearDown() throws Exception {
-        log.info("tearDown() started");
-
         userService.deleteUser(magelan.getUserName());
-
-        log.info("tearDown() ended");
     }
 
     @Test
@@ -87,38 +80,31 @@ public class PostControllerIntegrationTest {
     }
 
     @Test
-    public void viewSeparatePostPagePerEachDbPostIsAvailable() throws Exception {
+    public void viewSeparatePostPageIsAvailable() throws Exception {
         List<Post> postsByUserName = postService.findAllPostsByUserName(magelan.getUserName());
+        Post firstPost = postsByUserName.get(0);
 
-        postsByUserName.forEach(post -> {
-            log.info("POST_DETAILS: {} FOR USER: {}", post, magelan);
-
-            try {
-                this.mockMvc.perform(get("/post/" + post.getId())
-                        .with(httpBasic(magelan.getUserName(), magelan.getPassword()))
-                        .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
-                        .andExpect(status().isOk())
-                        .andExpect(content().contentType("text/html;charset=UTF-8"))
-                        .andExpect(content().string(allOf(
-                                containsString(post.getPostText())
-                        )));
-            } catch (Exception e) {
-                log.error("Exception happen during viewing the post page: {}", e.getCause());
-            }
-        });
+        this.mockMvc.perform(get("/post/" + firstPost.getId())
+                .with(httpBasic(magelan.getUserName(), magelan.getPassword()))
+                .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(content().string(allOf(
+                        containsString(firstPost.getPostText())
+                )));
     }
 
     @Test
-    public void ifPostIdIsIncorrectThrowExceptionForViewPostDetailsPage() throws Exception {
-        int id = RandomUtils.nextInt(10000, 20000);
-        this.mockMvc.perform(get("/post/" + id)
+    public void throwExceptionIfPostIdIsIncorrect() throws Exception {
+        int test_id = 99999;
+        this.mockMvc.perform(get("/post/" + test_id)
                 .with(httpBasic(magelan.getUserName(), magelan.getPassword()))
                 .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void postsPaginationControlsNumberOfPostsPerPageAndCanShowOnlyOnePost() throws Exception {
+    public void postsPaginationOfPostsPerPageShowOnlyOnePost() throws Exception {
         this.mockMvc.perform(get("/posts?page=0&size=1")
                 .with(httpBasic(magelan.getUserName(), magelan.getPassword()))
                 .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
@@ -134,7 +120,7 @@ public class PostControllerIntegrationTest {
     }
 
     @Test
-    public void postsPaginationControlsNumberOfPostsPerPageAndCanShowZeroPosts() throws Exception {
+    public void postsPaginationOfPostsPerPageShowZeroPosts() throws Exception {
         this.mockMvc.perform(get("/posts?page=5&size=5")
                 .with(httpBasic(magelan.getUserName(), magelan.getPassword()))
                 .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))

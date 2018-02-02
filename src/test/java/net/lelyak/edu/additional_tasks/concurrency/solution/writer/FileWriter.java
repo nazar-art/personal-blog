@@ -1,4 +1,4 @@
-package net.lelyak.edu.additional_tasks.concurrency.solution;
+package net.lelyak.edu.additional_tasks.concurrency.solution.writer;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +25,11 @@ public class FileWriter implements Writer {
 
         Path path = Paths.get(outputDir.concat("/").concat(report.getName()).concat(".txt"));
 
-        /*try (BufferedWriter writer = Files.newBufferedWriter(path, Charset.forName("UTF-8"))) {
+        try (BufferedWriter writer = Files.newBufferedWriter(path, Charset.forName("UTF-8"))) {
             writer.write(report.getContent());
         } catch (IOException ex) {
             log.error(ex.getMessage());
-        }*/
+        }
 
         log.info("write report: {} to file: {}", report.getName(), path);
     }

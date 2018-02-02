@@ -3,6 +3,7 @@ package net.lelyak.edu.additional_tasks.concurrency.solution;
 import lombok.extern.slf4j.Slf4j;
 import net.lelyak.edu.additional_tasks.concurrency.ReportingApiClient;
 import net.lelyak.edu.additional_tasks.concurrency.SlowReportingApiClient;
+import net.lelyak.edu.additional_tasks.concurrency.solution.writer.Writer;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -13,8 +14,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 public class CallableReportTask implements Callable<String> {
 
-    private AtomicInteger counter = new AtomicInteger(1);
+    public static final String REPORT_PREFIX = "report";
 
+    private AtomicInteger counter = new AtomicInteger(1);
     private Writer writer;
 
     public CallableReportTask(Writer writer) {
@@ -26,10 +28,11 @@ public class CallableReportTask implements Callable<String> {
         String currentThread = Thread.currentThread().getName();
         log.debug("{} thread started", currentThread);
 
-        SlowReportingApiClient client = new SlowReportingApiClient();
+        String reportName = String.format("%s_%d", REPORT_PREFIX, counter.getAndIncrement());
 
-        String reportName = String.format("report_%d", counter.getAndIncrement());
+        SlowReportingApiClient client = new SlowReportingApiClient();
         ReportingApiClient.Report report = client.getReport(reportName);
+
         log.info("Get report: {}", report);
 
         writer.write(report);

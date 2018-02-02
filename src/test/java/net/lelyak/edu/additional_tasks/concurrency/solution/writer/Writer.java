@@ -1,4 +1,4 @@
-package net.lelyak.edu.additional_tasks.concurrency.solution;
+package net.lelyak.edu.additional_tasks.concurrency.solution.writer;
 
 import net.lelyak.edu.additional_tasks.concurrency.SlowReportingApiClient;
 
