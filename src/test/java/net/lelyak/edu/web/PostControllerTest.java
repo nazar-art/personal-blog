@@ -50,11 +50,7 @@ public class PostControllerTest {
     private CommentService commentService;
 
     private PostController postController;
-
     private MockMvc mockMvc;
-
-//    @Autowired
-//    private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
 
     private BlogUser magelan = TestDataGenerator.buildMagelanUser();
     private List<Post> posts = TestDataGenerator.buildPostsList(magelan, "First post", "Second post");
@@ -70,7 +66,6 @@ public class PostControllerTest {
     public void setUp() throws Exception {
         postController = new PostController(postService, userService, commentService);
         mockMvc = MockMvcBuilders.standaloneSetup(postController)
-//                .setCustomArgumentResolvers(pageableArgumentResolver)
                 .build();
 
         // mocks configuration
@@ -87,15 +82,6 @@ public class PostControllerTest {
 
         assertThat(postController.userHomePage(model, pageable), equalTo("post/posts"));
         assertThat(model.asMap(), hasEntry("posts", page.getContent()));
-    }
-
-//    @Test // fails with NPE
-    public void requestForPostsIsSuccessfullyProcessedWithAvailablePosts() throws Exception {
-        this.mockMvc.perform(get("/posts")
-                .with(httpBasic(magelan.getUserName(), magelan.getPassword())))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("posts", equalTo(page.getContent())))
-                .andExpect(forwardedUrl("post/posts"));
     }
 
     @Test
