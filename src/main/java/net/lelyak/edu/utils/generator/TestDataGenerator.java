@@ -1,11 +1,15 @@
 package net.lelyak.edu.utils.generator;
 
+import com.google.common.collect.Lists;
+import javafx.geometry.Pos;
 import lombok.extern.slf4j.Slf4j;
 import net.lelyak.edu.model.BlogUser;
+import net.lelyak.edu.model.Comment;
 import net.lelyak.edu.model.Post;
 import net.lelyak.edu.model.Role;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -41,8 +45,23 @@ public class TestDataGenerator {
         return post;
     }
 
+    public static Comment buildComment(BlogUser user, Post post, String text) {
+        return Comment.builder()
+                .post(post)
+                .user(user)
+                .commentText(text)
+                .createdDate(LocalDateTime.now())
+                .build();
+    }
 
-    public static List<Post> buildPostsList(BlogUser user, String... postsMessages) {
+    public static List<Comment> addCommentToPostList(List<Post> posts, BlogUser user, String text) {
+        ArrayList<Comment> result = Lists.newArrayList();
+        posts.forEach(p -> result.add(buildComment(user, p, text)));
+        return result;
+    }
+
+
+    public static List<Post> buildPostsList(BlogUser user, String ... postsMessages) {
         List<Post> list = Stream.of(postsMessages)
                 .map(text -> buildPost(text, user))
                 .collect(toList());

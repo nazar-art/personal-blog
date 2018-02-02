@@ -1,11 +1,15 @@
-package net.lelyak.edu.block_iterator;
+package net.lelyak.edu.additional_tasks.block_iterator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.google.common.collect.Lists;
+import org.junit.Test;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Треба написати клас BlockIterator - реалізацію інтерфейсу Iterator.
@@ -45,49 +49,83 @@ import java.util.regex.Pattern;
  * Другий важливий коментар – в конструкторі вхідні дані не можна заганяти в пам’ять (список, масив і т.д.), чи робити ще якісь перетворення. Відні дані можуть бути дуже великими (десятки мегабайт) – завантажувати в пам’ять не можна, треба обробляти на льоту.
  * 
  * Третій і останній важливий нюанс – на співбесіді з Пейманом треба зробити так, щоб у нього склалось враження, що ти це завдання бачиш перший раз :)
- *
+ * 
  * І ще один момент: Метод hasNext() - ідемпотентний: якщо його викликати один, два, десять разів – результат має бути однаковий
  */
 class BlockIterator implements Iterator<List<String>> {
 
-    private Matcher regexMatcher;
+    private final Iterator<List<String>> iterator;
+    private final Pattern pattern;
 
-    public BlockIterator(Iterator<String> lines, String pattern) {
-        if (lines.hasNext()) {
-            String line = lines.next();
-            System.out.println("line: " + line);
-
-            Pattern regex = Pattern.compile(pattern);
-            regexMatcher = regex.matcher(line);
-        }
+    public BlockIterator(Iterator<List<String>> iterator, String regex) {
+        this.iterator = iterator;
+        this.pattern = Pattern.compile(regex);
     }
 
     @Override
     public boolean hasNext() {
-        return regexMatcher.find();
+        return iterator.hasNext();
     }
 
     @Override
     public List<String> next() {
-        List<String> results = new ArrayList<>();
-        while (regexMatcher.find()) {
-            results.add(regexMatcher.group());
+        String matchWord = null;
+        List<String> result = Lists.newArrayList();
+
+        while (iterator.hasNext()) {
+            List<String> line = iterator.next();
+
+            for (String word : line) {
+                Matcher matcher = pattern.matcher(word);
+
+                if (matcher.find()) {
+
+                    if (null != matchWord) {
+                        return result;
+                    } else {
+                        matchWord = word;
+                    }
+                }
+
+                if (null != matchWord) {
+                    result.add(word);
+                }
+            }
         }
-        return results;
+
+        return result;
     }
 }
 
 public class BlockIteratorTest {
 
-    public static final List<String> lines = Arrays.asList("123", "- test -", "start", "end", "test123");
+    public static final List<List<String>> lines = Lists.newArrayList(
+            Lists.newArrayList("123"),
+            Lists.newArrayList("- test -"),
+            Lists.newArrayList("start"),
+            Lists.newArrayList("end"),
+            Lists.newArrayList("test123"));
 
-    public static void main(String[] args) {
-        System.out.println(lines);
+    @Test
+    public void testNext() throws Exception {
+        List<String> expectedFirstNext = Lists.newArrayList("- test -", "start", "end");
+        List<String> expectedSecondNext = Lists.newArrayList("test123");
 
-        BlockIterator blockIterator = new BlockIterator(lines.iterator(), ".*test.*");
-        while (blockIterator.hasNext()) {
-            System.out.println(blockIterator.next());
-        }
+        BlockIterator blockIterator = new BlockIterator(lines.iterator(), "test");
+
+        List<String> actualFirstNext = blockIterator.next();
+        assertEquals(expectedFirstNext, actualFirstNext);
+
+        List<String> actualSecondNext = blockIterator.next();
+        assertEquals(expectedSecondNext, actualSecondNext);
     }
 
+    @Test
+    public void testHasNext() throws Exception {
+        BlockIterator blockIterator = new BlockIterator(lines.iterator(), "test");
+
+        for (int i = 0; i < 20; i++) {
+            assertTrue(blockIterator.hasNext());
+        }
+    }
 }
