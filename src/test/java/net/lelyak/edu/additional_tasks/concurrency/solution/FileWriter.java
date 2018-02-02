@@ -25,11 +25,11 @@ public class FileWriter implements Writer {
 
         Path path = Paths.get(outputDir.concat("/").concat(report.getName()).concat(".txt"));
 
-        /*try (BufferedWriter writer = Files.newBufferedWriter(path, Charset.forName("UTF-8"))) {
+        try (BufferedWriter writer = Files.newBufferedWriter(path, Charset.forName("UTF-8"))) {
             writer.write(report.getContent());
         } catch (IOException ex) {
             log.error(ex.getMessage());
-        }*/
+        }
 
         log.info("write report: {} to file: {}", report.getName(), path);
     }

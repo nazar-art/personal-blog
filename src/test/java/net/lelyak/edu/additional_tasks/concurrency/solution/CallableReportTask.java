@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Slf4j
 public class CallableReportTask implements Callable<String> {
+    public static final String REPORT_PREFIX = "report";
 
     private AtomicInteger counter = new AtomicInteger(1);
 
@@ -26,10 +27,11 @@ public class CallableReportTask implements Callable<String> {
         String currentThread = Thread.currentThread().getName();
         log.debug("{} thread started", currentThread);
 
-        SlowReportingApiClient client = new SlowReportingApiClient();
+        String reportName = String.format("%s_%d", REPORT_PREFIX, counter.getAndIncrement());
 
-        String reportName = String.format("report_%d", counter.getAndIncrement());
+        SlowReportingApiClient client = new SlowReportingApiClient();
         ReportingApiClient.Report report = client.getReport(reportName);
+
         log.info("Get report: {}", report);
 
         writer.write(report);
