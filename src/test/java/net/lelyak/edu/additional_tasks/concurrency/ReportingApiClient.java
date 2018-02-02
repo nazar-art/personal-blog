@@ -1,5 +1,7 @@
 package net.lelyak.edu.additional_tasks.concurrency;
 
+import lombok.ToString;
+
 /**
  * This interface represents general API for report generation
  */
@@ -9,6 +11,7 @@ public interface ReportingApiClient {
      */
     Report getReport(String name);
 
+    @ToString
     class Report {
         private String name;
         private String content;
