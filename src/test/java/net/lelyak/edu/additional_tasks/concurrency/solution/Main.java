@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         if (args.length != 2) {
             log.error("Incorrect usage:");
-            log.error("Please provide output file full path and number of working threads");
+            log.error("Please provide output file full path and number of final reports");
             log.error("Example: /tmp/reports_folder 500");
             System.exit(0);
         }
