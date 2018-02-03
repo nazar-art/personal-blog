@@ -1,11 +1,13 @@
 package net.lelyak.edu.additional_tasks.concurrency.solution;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.lelyak.edu.additional_tasks.concurrency.solution.writer.FileWriter;
 import net.lelyak.edu.additional_tasks.concurrency.solution.writer.Writer;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Nazar Lelyak.
@@ -13,6 +15,7 @@ import java.util.concurrent.Executors;
 @Slf4j
 public class Main {
 
+    @SneakyThrows
     public static void main(String[] args) {
         if (args.length != 2) {
             log.error("Incorrect usage:");
@@ -35,9 +38,7 @@ public class Main {
         }
 
         executor.shutdown();
-
-        while (!executor.isTerminated()) {
-        }
+        executor.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
 
         log.info("ALL_THREADS_DONE");
     }
