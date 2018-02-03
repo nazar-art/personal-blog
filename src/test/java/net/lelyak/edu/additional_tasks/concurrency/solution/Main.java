@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
         if (args.length != 2) {
             log.error("Incorrect usage:");
-            log.error("Please provide output file full path and number of final reports");
+            log.error("Please provide output folder full path and number of final reports");
             log.error("Example: /tmp/reports_folder 500");
             System.exit(0);
         }
@@ -24,7 +24,8 @@ public class Main {
         String destination = args[0];
         int reportsNumber = Integer.valueOf(args[1]);
 
-        ExecutorService executor = Executors.newFixedThreadPool(reportsNumber);
+        int cores = Runtime.getRuntime().availableProcessors();
+        ExecutorService executor = Executors.newFixedThreadPool(cores + 1);
 
         Writer fileWriter = new FileWriter(destination);
         CallableReportTask reportTask = new CallableReportTask(fileWriter);
