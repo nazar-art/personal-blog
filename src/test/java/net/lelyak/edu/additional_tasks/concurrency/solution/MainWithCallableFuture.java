@@ -2,18 +2,22 @@ package net.lelyak.edu.additional_tasks.concurrency.solution;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import net.lelyak.edu.additional_tasks.concurrency.ReportingApiClient;
+import net.lelyak.edu.additional_tasks.concurrency.SlowReportingApiClient;
 import net.lelyak.edu.additional_tasks.concurrency.solution.writer.FileWriter;
 import net.lelyak.edu.additional_tasks.concurrency.solution.writer.Writer;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Nazar Lelyak.
  */
 @Slf4j
-public class Main {
+public class MainWithCallableFuture {
 
     @SneakyThrows
     @SuppressWarnings("Duplicates")
@@ -28,19 +32,35 @@ public class Main {
         String destination = args[0];
         int reportsNumber = Integer.valueOf(args[1]);
 
-        int cores = Runtime.getRuntime().availableProcessors();
+        int cores = getCoresNumber();
         ExecutorService executor = Executors.newFixedThreadPool(cores + 1);
 
-        Writer fileWriter = new FileWriter(destination);
-        CallableReportTask reportTask = new CallableReportTask(fileWriter);
+        Writer writer = new FileWriter(destination);
+
+        AtomicInteger counter = new AtomicInteger(1);
+        SlowReportingApiClient client = new SlowReportingApiClient();
 
         for (int i = 0; i < reportsNumber; i++) {
-            executor.submit(reportTask);
+            CompletableFuture
+                    .supplyAsync(() -> {
+                        log.debug("Action ran in: " + Thread.currentThread().getName());
+
+                        String reportName = String.format("report_%d", counter.getAndIncrement());
+                        ReportingApiClient.Report report = client.getReport(reportName);
+
+                        writer.write(report);
+
+                        return reportName;
+                    }, executor);
         }
 
         executor.shutdown();
         executor.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
 
         log.info("ALL_THREADS_DONE");
+    }
+
+    private static int getCoresNumber() {
+        return Runtime.getRuntime().availableProcessors();
     }
 }
