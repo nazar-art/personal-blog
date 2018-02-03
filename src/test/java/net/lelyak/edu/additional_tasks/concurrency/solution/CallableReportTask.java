@@ -18,10 +18,12 @@ public class CallableReportTask implements Callable<String> {
 
     private AtomicInteger counter;
     private Writer writer;
+    private SlowReportingApiClient client;
 
     public CallableReportTask(Writer writer) {
         this.writer = writer;
         this.counter = new AtomicInteger(1);
+        this.client = new SlowReportingApiClient();
     }
 
     @Override
@@ -31,7 +33,6 @@ public class CallableReportTask implements Callable<String> {
 
         String reportName = String.format("%s_%d", REPORT_PREFIX, counter.getAndIncrement());
 
-        SlowReportingApiClient client = new SlowReportingApiClient();
         ReportingApiClient.Report report = client.getReport(reportName);
 
         log.info("Get report: {}", report);
