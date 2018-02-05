@@ -16,6 +16,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author Nazar Lelyak.
@@ -27,6 +29,7 @@ public class MainWithCallableTest {
 
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Test
     public void testSaveReportSuccess() throws Exception {
@@ -37,7 +40,8 @@ public class MainWithCallableTest {
         MainWithCallableFuture.main(new String[]{destinationPath, reportNumber});
 
         Files.list(Paths.get(destinationPath)).forEach(file -> {
-            log.info("FILE_INFO: {}", file.toAbsolutePath());
+            log.debug("FILE_LOCATION: {}", file.toAbsolutePath());
+
             File reportFile = file.toFile();
             String reportFileName = reportFile.getName();
             String content = null;
@@ -51,11 +55,11 @@ public class MainWithCallableTest {
             Assert.assertTrue(reportFile.exists());
             Assert.assertTrue(reportFileName.startsWith("report_"));
 
-            log.debug("FILE: {} has CONTENT: {}", reportFileName, content);
+            log.info("FILE: {} has CONTENT: {}", reportFileName, content);
 
             assert content != null;
-            Assert.assertTrue(content.startsWith(String.format("This is report [%s] content generated at",
-                    FilenameUtils.removeExtension(reportFileName))));
+            Assert.assertTrue(content.startsWith(String.format("This is report [%s] content generated at %s",
+                    FilenameUtils.removeExtension(reportFileName), LocalDateTime.now().format(formatter))));
         });
     }
 }
