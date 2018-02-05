@@ -6,6 +6,7 @@ import net.lelyak.edu.additional_tasks.concurrency.ReportingApiClient;
 import net.lelyak.edu.additional_tasks.concurrency.SlowReportingApiClient;
 import net.lelyak.edu.additional_tasks.concurrency.solution.writer.FileWriter;
 import net.lelyak.edu.additional_tasks.concurrency.solution.writer.Writer;
+import org.apache.commons.lang3.Validate;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -28,6 +29,9 @@ public class MainWithCallableFuture {
             log.error("Example: /tmp/reports_folder 500");
             System.exit(0);
         }
+
+        Validate.notBlank(args[0], "folder location can't be null or empty");
+        Validate.notBlank(args[1], "report number can't be null or empty");
 
         String destination = args[0];
         int reportsNumber = Integer.valueOf(args[1]);

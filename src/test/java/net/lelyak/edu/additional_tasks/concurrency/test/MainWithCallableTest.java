@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.lelyak.edu.additional_tasks.concurrency.solution.MainWithCallableFuture;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -44,7 +45,11 @@ public class MainWithCallableTest {
 
             File reportFile = file.toFile();
             String reportFileName = reportFile.getName();
-            String content = null;
+            String content = StringUtils.EMPTY;
+
+            Assert.assertTrue(reportFile.exists());
+            Assert.assertTrue(reportFile.isFile());
+            Assert.assertTrue(reportFileName.startsWith("report_"));
 
             try {
                 content = FileUtils.readFileToString(reportFile);
@@ -52,12 +57,9 @@ public class MainWithCallableTest {
                 log.error("Error during reading the file: {}, details: {}", reportFileName, e.getMessage());
             }
 
-            Assert.assertTrue(reportFile.exists());
-            Assert.assertTrue(reportFileName.startsWith("report_"));
-
             log.info("FILE: {} has CONTENT: {}", reportFileName, content);
 
-            assert content != null;
+            Assert.assertFalse(content.isEmpty());
             Assert.assertTrue(content.startsWith(String.format("This is report [%s] content generated at %s",
                     FilenameUtils.removeExtension(reportFileName), LocalDateTime.now().format(formatter))));
         });
