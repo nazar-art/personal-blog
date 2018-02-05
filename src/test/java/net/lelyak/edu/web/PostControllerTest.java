@@ -12,10 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -27,7 +27,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.collection.IsMapContaining.hasEntry;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 /**
  * @author Nazar Lelyak.
@@ -52,11 +51,6 @@ public class PostControllerTest {
     private List<Comment> comments = TestDataGenerator.addCommentToPostList(posts, magelan, "It is a comment");
     private Post firstPost = posts.get(0);
 
-    private Pageable pageable = new PageRequest(0, 2);
-    @SuppressWarnings("unchecked")
-    private Page<Post> pagePosts = new PageImpl(posts);
-    private PageWrapper<Post> page = new PageWrapper<>(pagePosts, "/posts");
-
     @Before
     public void setUp() throws Exception {
         postController = new PostController(postService, userService, commentService);
@@ -71,18 +65,22 @@ public class PostControllerTest {
 
     @Test
     public void allPostsAreAddedToModelForPostsView() throws Exception {
-        when(postService.listAllPostsByPage(pageable)).thenReturn(pagePosts);
+        @SuppressWarnings("unchecked")
+        Page<Post> pagePosts = new PageImpl(posts);
+        PageWrapper<Post> page = new PageWrapper<>(pagePosts, "/posts");
+
+        when(postService.listAllPostsByPage(Mockito.any(Pageable.class))).thenReturn(pagePosts);
 
         ExtendedModelMap model = new ExtendedModelMap();
 
-        assertThat(postController.userHomePage(model, pageable), equalTo("post/posts"));
+        assertThat(postController.userHomePage(model, Mockito.any(Pageable.class)), equalTo("post/posts"));
         assertThat(model.asMap(), hasEntry("posts", page.getContent()));
     }
 
     @Test
     public void allCommentsAreAddedToPostForPostView() throws Exception {
-        when(postService.findPost(TEST_POST_ID)).thenReturn(firstPost);
-        when(commentService.findAllCommentsByPostId(TEST_POST_ID)).thenReturn(comments);
+        when(postService.findPost(Mockito.anyLong())).thenReturn(firstPost);
+        when(commentService.findAllCommentsByPostId(Mockito.anyLong())).thenReturn(comments);
 
         ExtendedModelMap model = new ExtendedModelMap();
 
