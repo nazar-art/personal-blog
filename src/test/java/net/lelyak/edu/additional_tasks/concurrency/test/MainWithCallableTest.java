@@ -10,8 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,8 +23,7 @@ import java.time.format.DateTimeFormatter;
  * @author Nazar Lelyak.
  */
 @Slf4j
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(value = MainWithCallableFuture.class)
+@RunWith(MockitoJUnitRunner.class)
 public class MainWithCallableTest {
 
     @Rule
