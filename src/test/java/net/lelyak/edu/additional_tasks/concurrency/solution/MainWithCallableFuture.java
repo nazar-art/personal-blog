@@ -36,13 +36,13 @@ public class MainWithCallableFuture {
         String destination = args[0];
         int reportsNumber = Integer.valueOf(args[1]);
 
-        ExecutorService executor = Executors.newWorkStealingPool();
 
         Writer writer = new FileWriter(destination);
 
         AtomicInteger counter = new AtomicInteger(1);
         SlowReportingApiClient client = new SlowReportingApiClient();
 
+        ExecutorService executor = Executors.newWorkStealingPool();
         for (int i = 0; i < reportsNumber; i++) {
             CompletableFuture
                     .supplyAsync(() -> {
