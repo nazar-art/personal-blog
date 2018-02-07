@@ -32,8 +32,7 @@ public class Main {
         String destination = args[0];
         int reportsNumber = Integer.valueOf(args[1]);
 
-        int cores = Runtime.getRuntime().availableProcessors();
-        ExecutorService executor = Executors.newFixedThreadPool(cores + 1);
+        ExecutorService executor = Executors.newWorkStealingPool();
 
         Writer fileWriter = new FileWriter(destination);
         CallableReportTask reportTask = new CallableReportTask(fileWriter);

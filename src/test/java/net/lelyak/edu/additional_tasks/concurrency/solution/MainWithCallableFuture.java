@@ -36,8 +36,7 @@ public class MainWithCallableFuture {
         String destination = args[0];
         int reportsNumber = Integer.valueOf(args[1]);
 
-        int cores = getCoresNumber();
-        ExecutorService executor = Executors.newFixedThreadPool(cores + 1);
+        ExecutorService executor = Executors.newWorkStealingPool();
 
         Writer writer = new FileWriter(destination);
 
@@ -62,9 +61,5 @@ public class MainWithCallableFuture {
         executor.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
 
         log.info("ALL_THREADS_DONE");
-    }
-
-    private static int getCoresNumber() {
-        return Runtime.getRuntime().availableProcessors();
     }
 }
