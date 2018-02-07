@@ -49,12 +49,10 @@ public class MainWithCallableFuture {
                         log.debug("Action ran in: " + Thread.currentThread().getName());
 
                         String reportName = String.format("report_%d", counter.getAndIncrement());
-                        ReportingApiClient.Report report = client.getReport(reportName);
 
-                        writer.write(report);
-
-                        return reportName;
-                    }, executor);
+                        return client.getReport(reportName);
+                    }, executor)
+                    .thenAccept(writer::write);
         }
 
         executor.shutdown();
