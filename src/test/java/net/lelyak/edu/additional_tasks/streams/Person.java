@@ -2,8 +2,6 @@ package net.lelyak.edu.additional_tasks.streams;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 /**
  * @author Nazar Lelyak.
