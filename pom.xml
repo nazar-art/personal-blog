@@ -6,11 +6,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.lelyak.edu</groupId>
-    <artifactId>blog</artifactId>
+    <artifactId>personal-blog</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>blog</name>
+    <name>personal-blog</name>
     <description>Personal Blog Application</description>
 
     <parent>

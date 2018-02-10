@@ -69,4 +69,7 @@ _Optional_:
 
 
 ## Run demo sample
-You have to create PostgresSQL DB with name: blog
+You have to create PostgresSQL DB with names: 
+
+ - blog
+ - blog_test_db

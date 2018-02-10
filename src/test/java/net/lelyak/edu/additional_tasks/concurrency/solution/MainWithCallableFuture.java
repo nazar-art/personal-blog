@@ -36,35 +36,28 @@ public class MainWithCallableFuture {
         String destination = args[0];
         int reportsNumber = Integer.valueOf(args[1]);
 
-        int cores = getCoresNumber();
-        ExecutorService executor = Executors.newFixedThreadPool(cores + 1);
 
         Writer writer = new FileWriter(destination);
 
         AtomicInteger counter = new AtomicInteger(1);
         SlowReportingApiClient client = new SlowReportingApiClient();
 
+        ExecutorService executor = Executors.newWorkStealingPool();
         for (int i = 0; i < reportsNumber; i++) {
             CompletableFuture
                     .supplyAsync(() -> {
                         log.debug("Action ran in: " + Thread.currentThread().getName());
 
                         String reportName = String.format("report_%d", counter.getAndIncrement());
-                        ReportingApiClient.Report report = client.getReport(reportName);
 
-                        writer.write(report);
-
-                        return reportName;
-                    }, executor);
+                        return client.getReport(reportName);
+                    }, executor)
+                    .thenAccept(writer::write);
         }
 
         executor.shutdown();
         executor.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
 
         log.info("ALL_THREADS_DONE");
-    }
-
-    private static int getCoresNumber() {
-        return Runtime.getRuntime().availableProcessors();
     }
 }

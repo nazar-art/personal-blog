@@ -57,19 +57,20 @@ class BlockIterator implements Iterator<List<String>> {
     private final Iterator<List<String>> iterator;
     private final Pattern pattern;
 
-    private boolean hasNext = false;
+    private Boolean hasNext;
     private List<String> next = null;
     private String startNext = null;
 
     public BlockIterator(Iterator<List<String>> iterator, String regex) {
         this.iterator = iterator;
         this.pattern = Pattern.compile(regex);
-
-        hasNext = checkNext();
     }
 
     @Override
     public boolean hasNext() {
+        if (hasNext == null) {
+            hasNext = checkNext();
+        }
         return hasNext;
     }
 
@@ -106,9 +107,8 @@ class BlockIterator implements Iterator<List<String>> {
 
     @Override
     public List<String> next() {
-        List<String> current = next;
         hasNext = checkNext();
-        return current;
+        return next;
     }
 }
 

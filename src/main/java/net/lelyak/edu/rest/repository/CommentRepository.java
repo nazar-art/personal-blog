@@ -13,11 +13,5 @@ import java.util.Optional;
  * @author Nazar Lelyak.
  */
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    Optional<List<Comment>> findByUser(BlogUser user);
-    Optional<List<Comment>> findByUser_UserName(String userName);
-
-    Optional<List<Comment>> findByPost(Post post);
     List<Comment> findByPost_Id(Long id);
-
-    Optional<List<Comment>> findByCreatedDate(LocalDateTime dateTime);
 }
