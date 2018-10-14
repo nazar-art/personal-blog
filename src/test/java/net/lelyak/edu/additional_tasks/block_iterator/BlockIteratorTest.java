@@ -1,10 +1,14 @@
 package net.lelyak.edu.additional_tasks.block_iterator;
 
 import com.google.common.collect.Lists;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,13 +34,13 @@ import static org.junit.Assert.assertTrue;
  * lines = [ "123", "- test -", "start", "end", "test123", ]
  * 
  * Це регексп:
- * regexp = ".*test.*”
+ * regexp = ".*test.*"
  * 
  * Перший виклик методу next() на колекції lines дає таку колекцію (підсписок - від першого входження регекспу і до наступного, але не включаючи його):
- * next() --> [ "- test -“, "start”, "end”, ]
+ * next() --> [ "- test -", "start", "end", ]
  * 
  * Другий виклик методу next() повертає ось такий підсписок (від наступного входження регекспу і до кінця, оскільки наступного входження вже немає):
- * next() --> [ "test123” ]
+ * next() --> [ "test123" ]
  * 
  * Бізнес-логіка методу hasNext() подібна до next(), але замість списку повертається true/false
  * 
@@ -112,6 +116,67 @@ class BlockIterator implements Iterator<List<String>> {
     }
 }
 
+class ImprovedAlternateIterator<E> implements Iterator {
+
+    /**
+     * Stores the iterators which are to be alternated on.
+     */
+    private Iterator<E>[] iterators;
+
+    /**
+     * The index of iterator, which has the next element.
+     */
+    private int nextIterator = 0;
+
+    /**
+     * Initializes a new AlternatingIterator object.
+     * Stores the iterators in the iterators field.
+     * Finds the first iterator with an available element.
+     */
+    public ImprovedAlternateIterator(Iterator<E> ... iterators) {
+        this.iterators = iterators;
+
+        if (!iterators[0].hasNext())
+            findNextIterator();
+    }
+
+    @Override
+    public boolean hasNext() {
+        return iterators[nextIterator].hasNext();
+    }
+
+    @Override
+    public Object next() {
+        E element = iterators[nextIterator].next();
+
+        findNextIterator();
+
+        return element;
+    }
+
+    /**
+     * Steps on iterators, until one has next element.
+     * It does not step on them infinitely, stops when
+     * the lastly used iterator is reached.
+     */
+    private void findNextIterator() {
+        int currentIterator = nextIterator;
+
+        // Finding iterator with element remaining.
+        do {
+            stepNextIterator();
+        } while (!iterators[nextIterator].hasNext() && nextIterator != currentIterator);
+        // If it gets around to the same iterator, then there is no iterator with element.
+    }
+
+    /**
+     * Increases the nextIterator value without indexing out of bounds.
+     */
+    private void stepNextIterator() {
+        nextIterator = (nextIterator + 1) % iterators.length;
+    }
+}
+
 
 public class BlockIteratorTest {
 
@@ -143,5 +208,66 @@ public class BlockIteratorTest {
         for (int i = 0; i < 20; i++) {
             assertTrue(blockIterator.hasNext());
         }
+    }
+
+    private ImprovedAlternateIterator<Iterator> improvedIterator;
+
+    @Before
+    public void setUp() throws Exception {
+        ArrayList<String> list1 = Lists.newArrayList("A", "B", "C");
+        ArrayList<String> list2 = Lists.newArrayList("x", "y", "z");
+        ArrayList<Integer> list3 = Lists.newArrayList(1, 2);
+
+        // ListIterator to traverse the list
+        ListIterator iterator1 = list1.listIterator();
+        ListIterator iterator2 = list2.listIterator();
+        ListIterator iterator3 = list3.listIterator();
+
+        improvedIterator = new ImprovedAlternateIterator<Iterator>(iterator1, iterator2, iterator3);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        improvedIterator = null;
+    }
+
+    /**
+     * check that hasNext() is idempotent -> even if you call it 1 or 10 times the result should be the same
+     */
+    @Test
+    public void testHasNextForAlternateIterator() {
+        for (int i = 0; i < 20; i++) {
+            assertTrue(improvedIterator.hasNext());
+        }
+    }
+
+    /**
+     * check that next() for iterator
+     * it should return first element per each iterator
+     */
+    @Test
+    public void testNextForAlternateIterator() {
+        String expectedFromFirstIterator = "A";
+        String expectedFromSecondIterator = "x";
+        int expectedFromThirdIterator = 1;
+
+        assertEquals("First element from first iterator isn't retrieved", expectedFromFirstIterator, improvedIterator.next());
+        assertEquals(expectedFromSecondIterator, improvedIterator.next());
+        assertEquals(expectedFromThirdIterator, improvedIterator.next());
+
+        String expected2FromFirstIterator = "B";
+        String expected2FromSecondIterator = "y";
+        int expected2FromThirdIterator = 2;
+
+        assertEquals(expected2FromFirstIterator, improvedIterator.next());
+        assertEquals(expected2FromSecondIterator, improvedIterator.next());
+        assertEquals(expected2FromThirdIterator, improvedIterator.next());
+
+        // you can omit following section if you don't need to cover it
+        String expected3FromFirstIterator = "C";
+        String expected3FromSecondIterator = "z";
+
+        assertEquals(expected3FromFirstIterator, improvedIterator.next());
+        assertEquals(expected3FromSecondIterator, improvedIterator.next());
     }
 }

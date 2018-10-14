@@ -1,7 +1,5 @@
 package net.lelyak.edu;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
