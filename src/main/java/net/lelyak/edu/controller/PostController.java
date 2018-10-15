@@ -102,11 +102,9 @@ public class PostController {
         String userName;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null) {
-            userName = TestDataGenerator.buildMagelanUser().getUserName();
-        } else {
-            userName = authentication.getName();
-        }
+        userName = (authentication == null) ?
+                TestDataGenerator.buildMagelanUser().getUserName() :
+                authentication.getName();
 
         log.debug("Defining current user name: {}", userName);
         return userName;

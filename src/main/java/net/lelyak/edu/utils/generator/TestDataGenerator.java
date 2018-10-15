@@ -1,7 +1,6 @@
 package net.lelyak.edu.utils.generator;
 
 import com.google.common.collect.Lists;
-import javafx.geometry.Pos;
 import lombok.extern.slf4j.Slf4j;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.model.Comment;
@@ -11,10 +10,9 @@ import net.lelyak.edu.model.Role;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author Nazar Lelyak.
