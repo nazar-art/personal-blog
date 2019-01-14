@@ -65,7 +65,7 @@ _Optional_:
 * REST API and server functionality
 * HTML pages with layout and JavaScript functionality
 
-![Front-end & Back-end Architecture](/frontend-backend view.png)
+![Front-end & Back-end Architecture](frontend-backend-view.png)
 
 
 ## Run demo sample
