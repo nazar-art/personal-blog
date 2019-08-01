@@ -14,7 +14,7 @@ public class Ch03ReverseString {
         StringBuilder builder = new StringBuilder();
 
         for (int i = str.length(); i > 0; i--) {
-            builder.append(str.substring(i - 1, i));
+            builder.append(str, i - 1, i);
         }
         return builder.toString();
     }
