@@ -1,4 +1,4 @@
-package net.lelyak.edu.additional_tasks;
+package net.lelyak.edu.additional_tasks.javabrains;
 
 /**
  * @author Nazar Lelyak.

@@ -1,4 +1,4 @@
-package net.lelyak.edu.additional_tasks;
+package net.lelyak.edu.additional_tasks.javabrains;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
