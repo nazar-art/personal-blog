@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+>
+
 <head>
     <title>BlogUser Posts Page</title>
 
@@ -17,7 +18,6 @@
         <h4 th:inline="text">Home Page: [[${#httpServletRequest.remoteUser}]]</h4>
 
         <div th:if="${not #lists.isEmpty(posts)}">
-            <!--<h2 sec:authentication="name">Posts</h2>-->
             <h3>Posts:</h3>
             <table class="table table-striped">
                 <tr>

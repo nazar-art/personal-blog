@@ -31,7 +31,7 @@ public class PostController {
     /**
      * List all user posts.
      */
-    @GetMapping("/posts")
+    @GetMapping(value = {"/posts", "/posts.html"})
     public String userHomePage(Model model, Pageable pageable) {
 
         Page<Post> postsPage = postService.listAllPostsByPage(pageable);
