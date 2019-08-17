@@ -4,7 +4,12 @@ import lombok.AllArgsConstructor;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.rest.config.BlogUserResource;
 import net.lelyak.edu.rest.service.UserService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -29,8 +34,8 @@ public class UserResource {
     }
 
     @PostMapping(value = "/users")
-    public void addUser(@RequestBody BlogUser user) {
-        userService.createUser(user);
+    public BlogUser addUser(@RequestBody BlogUser user) {
+        return userService.createUser(user);
     }
 
     @PutMapping(value = "/users/{id}")

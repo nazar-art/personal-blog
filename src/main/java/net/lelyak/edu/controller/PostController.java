@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+@Slf4j
 @Controller
 @AllArgsConstructor
-@Slf4j
 public class PostController {
 
     private final PostService postService;
@@ -95,7 +95,6 @@ public class PostController {
         postService.deletePost(id);
         return "redirect:/posts";
     }
-
 
 
     private String getCurrentUserName() {
