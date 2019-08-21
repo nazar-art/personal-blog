@@ -8,16 +8,21 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * @author Nazar Lelyak.
  */
 @Data
+@Entity
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity @Table(name = "users")
+@AllArgsConstructor
+@Table(name = "users")
 public class BlogUser {
 
     @Id

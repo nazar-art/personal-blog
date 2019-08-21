@@ -1,0 +1,58 @@
+server:
+  display-name: Personal blog
+  port: 8081
+  compression:
+    enabled: true
+    mime-types: application/json,text/css,application/javascript
+    min-response-size: 2048
+  servlet-path: /
+  error:
+    path: /error
+
+
+spring:
+  application:
+    name: Personal Blog
+
+  # ===============================
+  # = DATA SOURCE
+  # ===============================
+  datasource:
+    url: jdbc:postgresql://localhost:5432/blog
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: secret
+
+  # ===============================
+  # = JPA / HIBERNATE
+  # ===============================
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  # ===============================
+  # = Thymeleaf configurations
+  # ===============================
+  thymeleaf:
+    cache: false
+
+# ===============================
+# = LOGGING
+# ===============================
+logging:
+  level: DEBUG
+
+
+# ===============================
+# = POSTS PER PAGE
+# ===============================
+number:
+  of:
+    posts:
+      per:
+        page: 5
+
