@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +32,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author Nazar Lelyak.
  */
+@Profile("test")
 @RunWith(MockitoJUnitRunner.class)
 public class PostControllerTest {
 

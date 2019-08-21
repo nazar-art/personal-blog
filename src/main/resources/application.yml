@@ -1,11 +1,9 @@
 server:
-  display-name: Personal blog
   port: 8081
   compression:
     enabled: true
     mime-types: application/json,text/css,application/javascript
     min-response-size: 2048
-  servlet-path: /
   error:
     path: /error
 
@@ -32,7 +30,17 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
+        jdbc.lob.non_contextual_creation: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        show-sql: true
+  #        cache:
+  #          use_second_level_cache: true
+  #          use_query_cache: true
+  #          region_prefix: hibernate
+  #          current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+  #          region:
+  #            factory_class: net.sf.ehcache.hibernate.EhCacheRegionFactory
+
 
   # ===============================
   # = Thymeleaf configurations
@@ -44,7 +52,12 @@ spring:
 # = LOGGING
 # ===============================
 logging:
-  level: DEBUG
+  level:
+    net:
+      lelyak: DEBUG
+    org:
+      hibernate:
+        cache: DEBUG
 
 
 # ===============================
