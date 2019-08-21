@@ -59,7 +59,7 @@ public class TestDataGenerator {
     }
 
 
-    public static List<Post> buildPostsList(BlogUser user, String ... postsMessages) {
+    public static List<Post> buildPostsList(BlogUser user, String... postsMessages) {
         List<Post> list = Stream.of(postsMessages)
                 .map(text -> buildPost(text, user))
                 .collect(toList());

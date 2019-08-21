@@ -3,13 +3,10 @@ package net.lelyak.edu.rest.service.impl;
 
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.lelyak.edu.model.BlogUser;
-import net.lelyak.edu.model.Role;
 import net.lelyak.edu.rest.repository.UserRepository;
 import net.lelyak.edu.utils.exception.NotPresentedInDbException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

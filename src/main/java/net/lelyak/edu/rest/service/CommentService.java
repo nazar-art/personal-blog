@@ -8,7 +8,7 @@ import java.util.List;
  * @author Nazar Lelyak.
  */
 public interface CommentService {
-    
+
     List<Comment> findAllCommentsByPostId(Long id);
 
     Comment findComment(Long id);

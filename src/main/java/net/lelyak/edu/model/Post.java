@@ -24,12 +24,13 @@ import java.time.LocalDateTime;
 @Table(name = "posts")
 public class Post {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String postText;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
+    //    @ManyToOne(cascade = CascadeType.ALL)
     @ManyToOne
     private BlogUser user;
 
