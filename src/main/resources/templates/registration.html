@@ -1,7 +1,7 @@
  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:form="http://www.w3.org/1999/html">
+ <html xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:th="http://www.thymeleaf.org"
+ >
 <head>
     <title>Registration Page</title>
     <div th:replace="fragments/header :: header-css"/>
@@ -22,6 +22,13 @@
                 <fieldset>
                     <h1>Register new Blog User</h1>
 
+                    <div th:if="${nameError}">
+                        <div th:utext="${nameError}" class="alert alert-danger"></div>
+                    </div>
+                    <div th:if="${emailError}">
+                        <div th:utext="${emailError}" class="alert alert-danger"></div>
+                    </div>
+
                     <div th:if="${param.error}">
                         <div class="alert alert-danger">
                             Invalid username or password.
@@ -40,7 +47,7 @@
 
                     <div class="form-group">
                         <input type="password" name="password" id="password" class="form-control input-lg"
-                               placeholder="Password" required="true"/>
+                               placeholder="Password" minlength="4"/>
                     </div>
 
                     <div class="form-group">
@@ -58,7 +65,6 @@
                         <a class="link" th:href="@{/login}">Already registered? Login.</a>
                     </div>
 
-                    <!--/*@thymesVar id="successMessage" type="java.lang.String"*/-->
                     <span th:utext="${successMessage}"></span>
                 </fieldset>
             </form>

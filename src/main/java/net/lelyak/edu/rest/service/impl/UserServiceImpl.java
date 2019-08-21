@@ -81,7 +81,8 @@ public class UserServiceImpl implements UserService {
 
         // delete all comments and all posts which belongs to user -> after it user itself
         postRepository.findByUser_UserName(userId).forEach(p -> {
-            commentRepository.findByPost_Id(p.getId()).forEach(c -> commentRepository.delete(c.getId()));
+            commentRepository.findByPost_Id(p.getId())
+                    .forEach(c -> commentRepository.delete(c.getId()));
             postRepository.delete(p.getId());
         });
 

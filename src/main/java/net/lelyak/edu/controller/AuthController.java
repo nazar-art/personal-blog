@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.lelyak.edu.model.BlogUser;
 import net.lelyak.edu.rest.service.impl.UserServiceImpl;
+import net.lelyak.edu.utils.exception.DuplicateEmailException;
+import net.lelyak.edu.utils.exception.DuplicateUserNameException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,9 +47,23 @@ public class AuthController {
 
         log.info("User details from UI form: {}", user);
 
-        userServiceImpl.createUser(user);
-        modelAndView.addObject("successMessage", "User has been registered successfully. Go to Login page.");
-        modelAndView.setViewName("registration");
+        try {
+            userServiceImpl.createUser(user);
+
+        } catch (DuplicateUserNameException e) {
+            log.error(e.getMessage());
+            modelAndView.addObject("nameError", "User name is already registered.");
+            e.getCause();
+
+        } catch (DuplicateEmailException e) {
+            log.error(e.getMessage());
+            modelAndView.addObject("emailError", "Email is already registered.");
+        }
+
+        if (modelAndView.isEmpty()) {
+            modelAndView.addObject("successMessage", "User has been registered successfully. Go to Login page.");
+            modelAndView.setViewName("registration");
+        }
 
         return modelAndView;
     }
