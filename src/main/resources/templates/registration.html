@@ -40,6 +40,13 @@
                         </div>
                     </div>
 
+                    <div th:if="${successMessage}">
+                        <div th:utext="${successMessage}" class="alert alert-success">
+                            <!--You have been logged out.-->
+                        </div>
+                    </div>
+
+
                     <div class="form-group">
                         <input type="text" name="userName" id="userName" class="form-control input-lg"
                                placeholder="UserName for new User" required="true" autofocus="true"/>
@@ -52,7 +59,7 @@
 
                     <div class="form-group">
                         <input type="email" name="email" id="email" class="form-control input-lg"
-                               placeholder="Your Email" pattern="[^ @]*@[^ @]*\.[^ @]{2,}" required="true"/>
+                               placeholder="Your Email" pattern="[^ @]*@[^ @]*\.[^ @]{2,}"/>
                     </div>
 
                     <div class="row">
@@ -65,7 +72,7 @@
                         <a class="link" th:href="@{/login}">Already registered? Login.</a>
                     </div>
 
-                    <span th:utext="${successMessage}"></span>
+                    <!--<span th:utext="${successMessage}" class="alert alert-success"></span>-->
                 </fieldset>
             </form>
         </div>
