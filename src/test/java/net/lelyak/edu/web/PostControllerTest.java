@@ -66,7 +66,7 @@ public class PostControllerTest {
     }
 
     @Test
-    public void allPostsAreAddedToModelForPostsView() throws Exception {
+    public void allPostsAreAddedToModelForPostsView() {
         @SuppressWarnings("unchecked")
         Page<Post> pagePosts = new PageImpl(posts);
         PageWrapper<Post> page = new PageWrapper<>(pagePosts, "/posts");
@@ -80,7 +80,7 @@ public class PostControllerTest {
     }
 
     @Test
-    public void allCommentsAreAddedToPostForPostView() throws Exception {
+    public void allCommentsAreAddedToPostForPostView() {
         when(postService.findPost(Mockito.anyLong())).thenReturn(firstPost);
         when(commentService.findAllCommentsByPostId(Mockito.anyLong())).thenReturn(comments);
 

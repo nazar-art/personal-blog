@@ -73,8 +73,8 @@ public class AuthController {
      * Handling errors.
      */
     @GetMapping("/error")
-    public String error() {
-//        log.error("Error occurred");
+    public String error(Throwable ex) {
+        log.error("Error happen: {}", ex.getMessage());
         return "/error";
     }
 

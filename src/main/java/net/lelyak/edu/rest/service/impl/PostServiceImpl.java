@@ -35,8 +35,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> findAllPostsByUserName(String userName) {
         List<Post> result = Lists.newArrayList();
+
         Optional<BlogUser> user = userRepository.findByUserName(userName);
-        result.addAll(postRepository.findByUser(user.get()));
+        user.ifPresent(u -> result.addAll(postRepository.findByUser(u)));
+
         log.debug("ALL_POSTS: {} BY USER_NAME: {}", result, userName);
         return result;
     }
@@ -47,7 +49,7 @@ public class PostServiceImpl implements PostService {
         Page<Post> postsPage = postRepository.findByUser_UserName(userName, pageable);
 
         log.info("Posts page object: {} with pages: {} and total elements: {}",
-                postsPage, postsPage.getTotalPages(), postsPage.getTotalElements());
+                postsPage.getContent(), postsPage.getTotalPages(), postsPage.getTotalElements());
 
         return postsPage;
     }

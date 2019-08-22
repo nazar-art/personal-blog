@@ -40,7 +40,6 @@ public class PostController {
         model.addAttribute("posts", page.getContent());
         model.addAttribute("page", page);
 
-        log.debug("Returning posts:");
         return "post/posts";
     }
 

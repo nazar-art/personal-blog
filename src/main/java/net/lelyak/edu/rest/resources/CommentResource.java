@@ -53,7 +53,7 @@ public class CommentResource {
         commentService.updateComment(id, comment);
     }
 
-    @DeleteMapping(value = "/users/{userId}/posts/{psotId}/comments/{id}")
+    @DeleteMapping(value = "/users/{userId}/posts/{postId}/comments/{id}")
     public void deleteComment(@PathVariable Long id) {
         commentService.deleteComment(id);
     }

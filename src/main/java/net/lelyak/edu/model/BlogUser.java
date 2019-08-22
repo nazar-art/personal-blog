@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -29,6 +30,7 @@ public class BlogUser {
     @NotEmpty(message = "*Please provide a user name")
     private String userName;
 
+    @ToString.Exclude
     @Length(min = 4, message = "*Your password must have at least 4 characters")
     @NotEmpty(message = "*Please provide your password")
     private String password;

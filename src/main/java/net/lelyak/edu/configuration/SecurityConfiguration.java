@@ -26,15 +26,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/posts/**", "/post/**").authenticated()
                 .antMatchers("/", "/registration").permitAll()
-                .antMatchers("/posts/**", "/post/**", "/users/**").authenticated()
-                .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").permitAll()
                 .defaultSuccessUrl("/posts")
-                .and()
-                .logout().permitAll()
-                .and().httpBasic()
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler).accessDeniedPage("/403");
     }
