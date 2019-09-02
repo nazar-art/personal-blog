@@ -7,17 +7,16 @@ import net.lelyak.edu.model.Post;
 import net.lelyak.edu.rest.service.CommentService;
 import net.lelyak.edu.rest.service.PostService;
 import net.lelyak.edu.rest.service.UserService;
-import net.lelyak.edu.utils.generator.TestDataGenerator;
 import net.lelyak.edu.web.PageWrapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.security.Principal;
 
 @Slf4j
 @Controller
@@ -66,8 +65,9 @@ public class PostController {
      * Save new post to DB.
      */
     @PostMapping(value = "post")
-    public String savePost(Post post) {
-        String currentUserName = getCurrentUserName();
+    public String savePost(Post post, Principal principal) {
+
+        String currentUserName = principal.getName();
         BlogUser currentUser = userService.getUser(currentUserName);
 
         post.setUser(currentUser);
@@ -93,18 +93,5 @@ public class PostController {
         log.debug("Delete post id value: {}", id);
         postService.deletePost(id);
         return "redirect:/posts";
-    }
-
-
-    private String getCurrentUserName() {
-        String userName;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        userName = (authentication == null) ?
-                TestDataGenerator.buildMagelanUser().getUserName() :
-                authentication.getName();
-
-        log.debug("Defining current user name: {}", userName);
-        return userName;
     }
 }
