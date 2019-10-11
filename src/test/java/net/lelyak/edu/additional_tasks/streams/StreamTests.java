@@ -3,11 +3,17 @@ package net.lelyak.edu.additional_tasks.streams;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.IntSummaryStatistics;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.partitioningBy;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -114,7 +120,9 @@ public class StreamTests {
         Person sara = new Person("Sara", 4);
         Person viktor = new Person("Viktor", 40);
         Person eva = new Person("Eva", 42);
+
         List<Person> collection = asList(sara, eva, viktor);
+
 
         assertThat(getStats(collection).getAverage()).isEqualTo((double) (4 + 40 + 42) / 3);
 
