@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -40,7 +41,7 @@ public class CommentResource {
     }
 
     @PostMapping(value = "/users/{userId}/posts/{postId}/comments")
-    public void addComment(@PathVariable String userId, @PathVariable Long postId, @RequestBody Comment comment) {
+    public void addComment(@PathVariable String userId, @PathVariable Long postId, @RequestBody @Valid Comment comment) {
 
         comment.setUser(userService.getUser(userId));
         comment.setPost(postService.findPost(postId));
@@ -49,7 +50,7 @@ public class CommentResource {
     }
 
     @PutMapping(value = "/users/{userId}/posts/{postId}/comments/{id}")
-    public void updateComment(@PathVariable Long id, @RequestBody Comment comment) {
+    public void updateComment(@PathVariable Long id, @RequestBody @Valid Comment comment) {
         commentService.updateComment(id, comment);
     }
 

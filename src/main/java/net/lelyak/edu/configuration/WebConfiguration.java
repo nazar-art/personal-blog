@@ -17,7 +17,7 @@ import java.util.List;
 @Configuration
 public class WebConfiguration extends WebMvcConfigurerAdapter {
 
-    @Value("${number.of.posts.per.page}")
+    @Value("${number.of.posts.per.page: 7}")
     private Integer postsNumber;
 
     @Override

@@ -115,7 +115,6 @@ public class PostControllerIntegrationTest {
                 .andExpect(content().string(allOf(
                         not(containsString("Second post"))
                 )));
-
     }
 
     @Test

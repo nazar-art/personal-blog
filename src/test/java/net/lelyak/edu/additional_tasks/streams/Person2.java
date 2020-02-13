@@ -1,19 +1,21 @@
 package net.lelyak.edu.additional_tasks.streams;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 /**
  * @author Nazar Lelyak.
  */
 @Data
+@Builder
 @AllArgsConstructor
-public class Person {
+public class Person2 {
     private String name;
+    private String lastName;
     private int age;
-//    private String nationality;
 
-    public int ageDifference(Person person) {
+    public int ageDifference(Person2 person) {
         return this.age - person.age;
     }
 }

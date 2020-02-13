@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -34,12 +35,12 @@ public class UserResource {
     }
 
     @PostMapping(value = "/users")
-    public BlogUser addUser(@RequestBody BlogUser user) {
+    public BlogUser addUser(@RequestBody @Valid BlogUser user) {
         return userService.createUser(user);
     }
 
     @PutMapping(value = "/users/{id}")
-    public void updateUser(@PathVariable String id, @RequestBody BlogUser user) {
+    public void updateUser(@PathVariable String id, @RequestBody @Valid BlogUser user) {
         userService.updateUser(id, user);
     }
 
