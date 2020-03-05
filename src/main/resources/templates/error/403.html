@@ -1,13 +1,16 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
-    <div th:replace="fragments/header :: header-css"/>
+    <title>Error page</title>
 </head>
 
 <body>
+<div th:replace="fragments/header :: header"></div>
 
-<div th:replace="fragments/header :: header"/>
+<header>
+    <div th:replace="fragments/header :: header-css"></div>
+</header>
 
 <div class="container">
 
@@ -21,7 +24,7 @@
 </div>
 <!-- /.container -->
 
-<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/footer :: footer"></div>
 
 </body>
 </html>

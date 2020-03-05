@@ -4,12 +4,14 @@
 <head>
     <title>View Post Page</title>
 
-    <div th:replace="fragments/header :: header-css"/>
 </head>
 
 <body>
+<header>
+    <div th:replace="fragments/header :: header-css"></div>
+</header>
 
-<div th:replace="fragments/header :: header"/>
+<div th:replace="fragments/header :: header"></div>
 
 <div class="container">
     <h2>Post Details</h2>
@@ -48,7 +50,7 @@
     </div>
 </div>
 
-<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/footer :: footer"></div>
 
 </body>
 </html>

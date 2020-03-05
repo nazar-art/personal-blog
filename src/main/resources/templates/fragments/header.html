@@ -1,5 +1,10 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
+    <title>Header</title>
+</head>
+
+<header>
     <div th:fragment="header-css">
         <!-- this is header-css -->
         <link rel="stylesheet" type="text/css"
@@ -8,7 +13,7 @@
         <link rel="stylesheet" th:href="@{/css/main.css}"
               href="../../static/css/main.css"/>
     </div>
-</head>
+</header>
 
 <body>
 <div th:fragment="header">

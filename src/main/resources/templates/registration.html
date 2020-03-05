@@ -1,15 +1,16 @@
  <!DOCTYPE html>
  <html xmlns="http://www.w3.org/1999/xhtml"
-       xmlns:th="http://www.thymeleaf.org"
- >
+       xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Registration Page</title>
-    <div th:replace="fragments/header :: header-css"/>
 </head>
 
 <body>
+<header>
+    <div th:replace="fragments/header :: header-css"></div>
+</header>
 
-<div th:replace="fragments/header :: header"/>
+<div th:replace="fragments/header :: header"></div>
 
 <div class="container">
 
@@ -80,7 +81,7 @@
 
 </div>
 
-<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/footer :: footer"></div>
 
 </body>
 </html>

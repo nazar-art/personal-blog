@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,9 +34,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public List<BlogUser> getAllUsers() {
-        List<BlogUser> result = new ArrayList<>();
-        result.addAll(userRepository.findAll());
-        return result;
+        return userRepository.findAll();
     }
 
     @Override
@@ -105,7 +102,7 @@ public class UserServiceImpl implements UserService {
                 });
     }
 
-    public void validateUserDBPresence(String name) {
+    private void validateUserDBPresence(String name) {
         userRepository.findByUserName(name)
                 .orElseThrow(() -> new NotPresentedInDbException(name));
     }

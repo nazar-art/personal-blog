@@ -5,12 +5,14 @@
 <head>
     <title>Add Post Page</title>
 
-    <div th:replace="fragments/header :: header-css"/>
 </head>
 
 <body>
+<header>
+    <div th:replace="fragments/header :: header-css"></div>
+</header>
 
-<div th:replace="fragments/header :: header"/>
+<div th:replace="fragments/header :: header"></div>
 <!--<th:block th:include="fragments/header :: header"/>-->
 
 <div class="container">
@@ -42,7 +44,7 @@
 
 </div>
 
-<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/footer :: footer"></div>
 
 </body>
 </html>
