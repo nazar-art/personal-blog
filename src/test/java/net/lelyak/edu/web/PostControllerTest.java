@@ -36,7 +36,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class PostControllerTest {
 
-    public static final long TEST_POST_ID = 1L;
+    private static final long TEST_POST_ID = 1L;
 
     @Mock
     private PostService postService;
@@ -59,7 +59,7 @@ public class PostControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(postController)
                 .build();
 
-        // mocks configuration
+        // mocks configurations
 //        when(postService.listAllPostsByPage(pageable)).thenReturn(pagePosts);
 //        when(postService.findPost(TEST_POST_ID)).thenReturn(firstPost);
 //        when(commentService.findAllCommentsByPostId(TEST_POST_ID)).thenReturn(comments);

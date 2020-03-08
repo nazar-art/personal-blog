@@ -109,16 +109,12 @@ public class PostServiceImpl implements PostService {
 
 
     private void validatePostRelevance(String userName, Post post) {
-        boolean postBelongsToUser;
 
-        try {
-            postBelongsToUser = post.getUser().getUserName().equals(userName);
-        } catch (Exception e) {
-            postBelongsToUser = false;
-        }
-
-        if (!postBelongsToUser) {
-            throw new BadRequestException(userName);
+        if (post.getUser().getUserName().equals(userName)) {
+            log.info("user: {} owns post: {}", userName, post);
+        } else {
+            String msg = String.format("user: %s isn't author of post %s", userName, post);
+            throw new BadRequestException(msg);
         }
     }
 
@@ -137,7 +133,6 @@ public class PostServiceImpl implements PostService {
         } else {
             userName = authentication.getName();
         }
-
 
         log.debug("Current USER_NAME: {}", userName);
         return userName;

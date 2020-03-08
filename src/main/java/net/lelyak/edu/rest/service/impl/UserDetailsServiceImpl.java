@@ -34,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return buildUserForAuthentication(user);
     }
 
-    public org.springframework.security.core.userdetails.User buildUserForAuthentication(BlogUser user) {
+    private org.springframework.security.core.userdetails.User buildUserForAuthentication(BlogUser user) {
 
         SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getRole().name());
         List<GrantedAuthority> authorities = Lists.newArrayList(grantedAuthority);
