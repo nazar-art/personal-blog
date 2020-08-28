@@ -34,7 +34,7 @@ public class MainWithCallableFuture {
         Validate.notBlank(args[1], "report number can't be null or empty");
 
         String destination = args[0];
-        int reportsNumber = Integer.valueOf(args[1]);
+        int reportsNumber = Integer.parseInt(args[1]);
 
 
         Writer writer = new FileWriter(destination);

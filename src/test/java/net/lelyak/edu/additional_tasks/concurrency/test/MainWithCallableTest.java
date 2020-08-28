@@ -28,7 +28,7 @@ public class MainWithCallableTest {
 
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Test
     public void testSaveReportSuccess() throws Exception {
